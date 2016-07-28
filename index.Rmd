@@ -5,6 +5,8 @@ date: "July 28, 2016"
 output: 
   html_document: 
     toc: yes
+    toc_float: true
+    code_folding: hide
 ---
 
 ```{r setup, include=FALSE}
@@ -29,6 +31,12 @@ m  # Print the map
 ```
 
 ### time series
+
+```{r}
+library(dygraphs)
+dygraph(nhtemp, main = "New Haven Temperatures") %>% 
+  dyRangeSelector(dateWindow = c("1920-01-01", "1960-01-01"))
+```
 
 
 ## WATER
