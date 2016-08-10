@@ -1,0 +1,277 @@
+---
+title: "Testing ERDDAP"
+author: "Ben Best"
+date: "August 9, 2016"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    number_sections: true
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Time Series
+
+Technical resources:
+
+* [rerddap](https://github.com/ropensci/rerddap): R client for working with ERDDAP servers
+* [dygraphs](http://rstudio.github.io/dygraphs/): interactive time series visualization
+* [rmarkdown - HTML documents](http://rmarkdown.rstudio.com/html_document_format.html)
+
+```{r anchovy timeseries}
+suppressPackageStartupMessages({
+  library(rerddap) # install.packages("rerddap")
+  library(dplyr)
+  library(readr)
+  library(lubridate)
+  library(DT)
+  library(dygraphs)
+  library(xts)
+})
+
+# assign server
+eurl = 'http://oceanview.pfeg.noaa.gov/erddap/'
+
+# search for anchovy datasets
+ed_search(query='anchovy', which='table', url=eurl)
+
+# get metadata on single dataset
+m = info('cciea_C_ANCHO_CC', url=eurl)
+m
+
+# get data
+d = tabledap(m, fields = c('anchovy', 'time'), url=eurl) %>%
+  mutate(date = as_date(time)) %>%
+  select(date, anchovy)
+
+# show data
+datatable(d)
+
+# transform into xts format for dygraph
+d_xts = as.xts(d, order.by=d$date)
+    
+# plot timeseries
+dygraph(d_xts) %>% 
+  dyRangeSelector()
+```
+
+
+### Annotations
+
+* [Annotations](http://rstudio.github.io/dygraphs/gallery-annotations.html) for Flower Garden Banks event
+
+### Shiny Integration
+
+* [Using in Shiny Applications](http://rstudio.github.io/dygraphs/shiny.html): eg `input$series_date_window` for dygraph called `series`
+
+
+## Plot Map
+
+### Combine ERDDAP datasets across years for Florida Keys Reef Visual Census
+
+[ERDDAP: gcoos4.tamu.edu](http://gcoos4.tamu.edu:8080/erddap/info/index.html?page=1&itemsPerPage=1000)
+
+```{r prep FL Keys fish}
+# csv files to read (since time consuming to create using ERDDAP server calls)
+csv_d    = 'data/erddap_Florida-Keys-Reef-Visual-Census.csv'
+csv_cols = 'data/erddap_Florida-Keys-Reef-Visual-Census_columns.csv'
+
+# assign ERDDAP server URL
+eurl = 'http://gcoos4.tamu.edu:8080/erddap/'
+  
+if (!file.exists(csv_d)){
+  # create csv files
+  
+  # search for anchovy datasets
+  ed_search(query='Florida Keys Reef Visual Census', which='table', url=eurl)
+  
+  # iterate over years
+  all = list()
+  for (yr in 1994:2014){ # yr = 1994
+  
+    # construct id for dataset
+    id = sprintf('fk%d', yr); cat(sprintf('%s\n', id))
+    
+    # get metadata for dataset
+    m = try(info(id, url=eurl), silent = T)
+    
+    # if id not found, then move onto next year
+    if (class(m) == 'try-error'){
+      cat(sprintf('%s NOT FOUND!\n', id))
+      next
+    }       
+  
+    # load data for individual dataset
+    d_id = tabledap(m, fields=m$variables$variable_name, url=eurl) %>%
+      tbl_df()
+    
+    # load individual dataset into data.frame with all datasets
+    all[[id]] = d_id
+  
+  }
+  
+  # bind all data frames in list into one data frame
+  d = bind_rows(all, .id = 'erddap_id') %>%
+    mutate(erddap_url = eurl)
+  
+  # write to csv of data
+  write_csv(d, csv_d)
+  
+  # evaluate commonness of columns
+  all_cols = list()
+  for (id in names(all)){ # id = 'fk2005'
+    
+    # create data frame of column names and classes
+    all_cols[[id]] = data.frame(
+      erddap_id = id,
+      var_name  = names(all[[id]]),
+      var_class = sapply(all[[id]], class))
+    
+  }
+  
+  # bind all data frames of columns in list into one data frame
+  d_cols = bind_rows(all_cols)
+  
+  # write to csv of columns
+  write_csv(d_cols, csv_cols)
+
+} else {
+  # read csv files
+  d      = read_csv(csv_d)
+  d_cols = read_csv(csv_cols)
+}
+
+# show columns (with same class) not consistently available across all datasets
+d_cols %>%
+  group_by(var_name, var_class) %>%
+  summarize(
+    n = n()) %>%
+  filter(n != max(n)) %>%
+  datatable()
+```
+
+### Marker Map
+
+Using "1994 Florida Keys Reef Visual Census" as example dataset since problems with `rerddap` package retrieving information.
+
+More links from metadata:
+
+* [ERDDAP - Information about 1994 Florida Keys Reef Visual Census, v3.2, from ???](http://gcoos4.tamu.edu:8080/erddap/info/fk1994/index.html)
+    * [Reef Fish Monitoring in the Florida Keys - Southeast Fisheries Science Center : NOAA : National Marine Fisheries Service](http://www.sefsc.noaa.gov/species/fish/reeffish.htm#keys)
+    * [MMI Ontology Registry and Repository](http://mmisw.org/orr/#http://mmisw.org/ont/ioos/marine_biogeography)
+    * [Cooperative Multi-Agency Reef Fish Monitoring Protocol - Florida Keys Coral Reef Ecosystem](http://www.coris.noaa.gov/activities/fish_monitoring_protocol/)
+    * [RVC | Data Portal](http://www.sefsc.noaa.gov/rvc_analysis20/samples/index)
+
+
+```{r fk1994 marker map}
+# since couldn't read longitude in rerddap call...
+url = 'http://gcoos4.tamu.edu:8080/erddap/tabledap/fk1994.csvp?time%2CtimeUncertainty%2Clongitude%2Clatitude%2Cdepth%2CminimumDepthInMeters%2CmaximumDepthInMeters%2CunderwaterVisibilityInMeters%2CwaterTemperatureInCelsius%2CquantificationMethod%2CsampleRadiusInMeters%2CquantificationName%2CquantificationValue%2CquantificationStatus%2CquantificationUnit%2CobservedMeanLengthInCm%2CdynamicProperties%2CdataSetID%2CtaxonRank%2CscientificName%2CvernacularName%2Cspecies_cd%2Cspecies_nr%2Cgenus%2Cfamily%2Corder%2Cclass%2Cphylum%2Ckingdom%2Chabitat%2Chabitat_cd%2CprimarySamplingUnit%2CmapGridNumber%2CmapNumber%2Czone_nr%2Csubregion_nr%2Cstation_nr%2CmaterialSampleID%2Ccountry%2CstateProvince%2CwaterBody%2CdatasetName%2Clocality%2CeventDate%2CeventDateTimeZone%2ChigherInstitutionCode%2CinstitutionCode%2CownerInstitutionCode%2CgeodeticDatum%2CbasisOfRecord%2CrecordedBy%2Creferences%2CeventDateRemarks%2CverticalDatum%2Cprotection%2CbottomType%2Cregion&time%3E=1994-10-14T00%3A00%3A00Z&time%3C=1994-10-21T12%3A00%3A00Z'
+d = read_csv(url) %>%
+  rename(
+    dtime = `time (UTC)`,
+    lon = `longitude (degrees_east)`,
+    lat = `latitude (degrees_north)`)
+
+d_sites = d %>%
+  group_by(lon, lat) %>%
+  summarize(
+    qval_min = min(quantificationValue, na.rm=T),
+    qval_max = max(quantificationValue, na.rm=T),
+    qval_avg = mean(quantificationValue, na.rm=T))
+  
+library(leaflet)
+library(htmltools)
+leaflet(data=d_sites) %>%
+  addProviderTiles('Esri.OceanBasemap') %>%  # or 'Esri.OceanBasemap'/'Stamen.TonerLite'
+  # see [all providers](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)
+  addMarkers(
+    ~lon, ~lat, 
+    popup = ~paste(
+      strong("quantificationValue:"), sprintf("%0.3g (%0.3g - %0.3g)", qval_avg, qval_min, qval_max)))
+```
+
+
+## Binning by Hexagons
+
+binning:
+
+- [hexagon_binning.pdf](https://cran.r-project.org/web/packages/hexbin/vignettes/hexagon_binning.pdf)
+- for hexagon binning options in R, see [#7: shiny app to slice in space and time to create hexagon map and timeseries plot summaries](https://github.com/marinebon/private/issues/7)
+
+example data:
+
+- [ERDDAP - Search: calcofi](http://coastwatch.pfeg.noaa.gov/erddap/search/index.html?page=1&itemsPerPage=1000&searchFor=calcofi)
+- [ERDDAP - CalCOFI Larvae Counts Positive Tows - Data Access Form](http://coastwatch.pfeg.noaa.gov/erddap/tabledap/erdCalCOFIlrvcntpos.html)
+
+```{r hexbin}
+# missing species?
+library(hexbin)
+
+ed_search(query='calcofi haul catch', which='table')
+
+stns = tabledap(info('erdCalCOFIstns'))
+lrvcntpos = tabledap(info('erdCalCOFIlrvcntpos'))
+
+# TODO: unique by place+time
+d = lrvcntpos %>%
+  tbl_df() %>%
+  mutate(
+    lat = as.numeric(latitude),
+    lon = as.numeric(longitude)) %>%
+  group_by(lon, lat) %>%
+  summarize(
+    n_species = n_distinct(scientific_name)) %>%
+  ungroup() %>%  
+  sample_n(100) # pick random sample of rows from massive dataset
+
+leaflet(data=d) %>%
+  addProviderTiles('Esri.OceanBasemap') %>%  # or 'Esri.OceanBasemap'/'Stamen.TonerLite'
+  # see [all providers](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)
+  addMarkers(
+    ~lon, ~lat, 
+    popup = ~paste(
+      strong("n_species: "), n_species))
+```
+
+## Problems with FL Keys Fish Survey dataset
+
+**Where's the data?** See [MBON IOOS: Florida Keys Reef Fish Visual Census](http://mbon.ioos.us/#module-metadata/53cb8d58-ae4d-43e1-aea3-640db9491db2/9436fa4e-73aa-4189-b551-b3b484a9d4e9). Follow the metadata URL and then to [ERDDAP - fk1994 as HTML table](http://gcoos4.tamu.edu:8080/erddap/tabledap/fk1994.htmlTable?time%2CtimeUncertainty%2Clongitude%2Clatitude%2Cdepth%2CminimumDepthInMeters%2CmaximumDepthInMeters%2CunderwaterVisibilityInMeters%2CwaterTemperatureInCelsius%2CquantificationMethod%2CsampleRadiusInMeters%2CquantificationName%2CquantificationValue%2CquantificationStatus%2CquantificationUnit%2CobservedMeanLengthInCm%2CdynamicProperties%2CdataSetID%2CtaxonRank%2CscientificName%2CvernacularName%2Cspecies_cd%2Cspecies_nr%2Cgenus%2Cfamily%2Corder%2Cclass%2Cphylum%2Ckingdom%2Chabitat%2Chabitat_cd%2CprimarySamplingUnit%2CmapGridNumber%2CmapNumber%2Czone_nr%2Csubregion_nr%2Cstation_nr%2CmaterialSampleID%2Ccountry%2CstateProvince%2CwaterBody%2CdatasetName%2Clocality%2CeventDate%2CeventDateTimeZone%2ChigherInstitutionCode%2CinstitutionCode%2CownerInstitutionCode%2CgeodeticDatum%2CbasisOfRecord%2CrecordedBy%2Creferences%2CeventDateRemarks%2CverticalDatum%2Cprotection%2CbottomType%2Cregion&time%3E=1994-10-14T00%3A00%3A00Z&time%3C=1994-10-21T12%3A00%3A00Z). 
+
+- Where are individual species? 
+- What is `quantificationValue`?
+
+## Problems with `rerddap`
+
+### Not paging
+
+```{r rerddap not paging}
+eurl = 'http://gcoos4.tamu.edu:8080/erddap/'
+
+# showing 20 of 26
+ed_search(query='Florida Keys Reef Visual Census', which='table', url=eurl)
+# no page 2
+try(ed_search(query='Florida Keys Reef Visual Census', which='table', url=eurl, page=2))
+# page_size not respected
+ed_search(query='Florida Keys Reef Visual Census', which='table', url=eurl, page_size=30)
+```
+
+
+### Missing longitude and other data
+
+```{r fk1994 missing data}
+eurl = 'http://gcoos4.tamu.edu:8080/erddap/'
+
+m = info('fk1994', url=eurl)
+m$variables$variable_name
+d = tabledap(m, fields=m$variables$variable_name, url=eurl)
+table(d$longitude)
+```
+
+
+## Other
+
+- `rgl::abundance`: Animal abundance, visualization of multi-dimension data using multiple techniques

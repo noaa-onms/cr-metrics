@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+.DS_Store
+data/erddap_Florida-Keys-Reef-Visual-Census.csv

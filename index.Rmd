@@ -7,6 +7,7 @@ output:
     toc: yes
     toc_float: true
     code_folding: hide
+    self_contained: false
 ---
 
 ```{r setup, include=FALSE}
@@ -21,7 +22,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Let's do a little interactive map...
 
-```{r}
+```{r map}
 library(leaflet)
 
 m <- leaflet() %>%
@@ -32,7 +33,7 @@ m  # Print the map
 
 ### time series
 
-```{r}
+```{r time series}
 library(dygraphs)
 dygraph(nhtemp, main = "New Haven Temperatures") %>% 
   dyRangeSelector(dateWindow = c("1920-01-01", "1960-01-01"))
@@ -77,5 +78,5 @@ dygraph(nhtemp, main = "New Haven Temperatures") %>%
 
 ### 15. Do known maritime archaeological resources pose an environmental hazard and is this threat changing?
 
-### 16. What are the levels of human ac- tivities that may in uence maritime archaeological resource quality and how are they changing?
+### 16. What are the levels of human activities that may in uence maritime archaeological resource quality and how are they changing?
 
