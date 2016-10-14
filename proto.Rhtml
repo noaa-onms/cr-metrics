@@ -1,0 +1,43 @@
+<html>
+<head>
+<title>Title</title>
+</head>
+<style>
+.container {
+    position: relative;
+}
+
+#pinniped {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    width: 30%;
+    fill: red;
+}
+#pinniped:hover path {
+    fill: green;
+}
+
+.habitat {
+    width: 100%;
+    height: auto;
+    opacity: 0.3;
+}
+
+</style>
+<body>
+
+<div class="container">
+  <img class="habitat" id="pelagic" src="./svg/pelagic.png"/>
+  <!--img class="svg" id="pinniped" src="./svg/pinniped.svg" alt="pinniped"/-->
+  <!--begin.rcode echo=F, results='asis'
+    cat(readLines('svg/pinniped.svg'))
+  end.rcode-->
+
+</div>
+
+python -m http.server 8000
+http://localhost:8000
+
+</body>
+</html>
