@@ -9,10 +9,8 @@ span #pinniped {
     width: 30%;
     fill: red;
 }
-span:hover #pinniped path { /* NOT working ?! */
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0,1 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    -webkit-filter: drop-shadow( -5px -5px 5px #000 );
-            filter: drop-shadow( -5px -5px 5px #000 ); /* Same syntax as box-shadow */
+span:hover #pinniped path { 
+    /* TODO: shadow or glow */
 }
 
 .habitat {

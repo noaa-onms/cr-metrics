@@ -2,6 +2,7 @@
 output:
   html_document:
     self_contained: false
+    lib_dir: libs
 ---
 
 ```{r setup, include=FALSE}
