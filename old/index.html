@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Ben Best" />
+
+<meta name="date" content="2016-07-28" />
+
+<title>Condition Report Metrics</title>
+
+<script src="index_files/jquery-1.11.3/jquery.min.js"></script>
+<script src="index_files/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="index_files/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="index_files/tocify-1.9.1/jquery.tocify.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="index_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="index_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="index_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="index_files/htmlwidgets-0.6/htmlwidgets.js"></script>
+<link href="index_files/leaflet-0.7.3/leaflet.css" rel="stylesheet" />
+<script src="index_files/leaflet-0.7.3/leaflet.js"></script>
+<link href="index_files/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="index_files/leaflet-binding-1.0.1/leaflet.js"></script>
+<link href="index_files/dygraphs-1.1.1/dygraph.css" rel="stylesheet" />
+<script src="index_files/dygraphs-1.1.1/dygraph-combined.js"></script>
+<script src="index_files/moment-2.8.4/moment.js"></script>
+<script src="index_files/moment-timezone-0.2.5/moment-timezone-with-data.js"></script>
+<script src="index_files/dygraphs-binding-0.9/dygraphs.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<link rel="stylesheet"
+      href="index_files/highlight/default.css"
+      type="text/css" />
+<script src="index_files/highlight/highlight.js"></script>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script src="index_files/navigation-1.1/tabsets.js"></script>
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+<script src="index_files/navigation-1.1/codefolding.js"></script>
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.9em;
+  padding-left: 5px;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Condition Report Metrics</h1>
+<h4 class="author"><em>Ben Best</em></h4>
+<h4 class="date"><em>July 28, 2016</em></h4>
+
+</div>
+
+
+<!-- source: http://sanctuaries.noaa.gov/science/condition/monterey-bay-2015/mbnms-cr-2015-highres.pdf -->
+<div id="test" class="section level2">
+<h2>TEST</h2>
+<div id="map" class="section level3">
+<h3>map</h3>
+<p>Let’s do a little interactive map…</p>
+<pre class="r"><code>library(leaflet)
+
+m &lt;- leaflet() %&gt;%
+  addTiles() %&gt;%  # Add default OpenStreetMap map tiles
+  addMarkers(lng=-82.633365, lat=27.760501, popup=&quot;IMARS&quot;)
+m  # Print the map</code></pre>
+<div id="htmlwidget-9101" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9101">{"x":{"calls":[{"method":"addTiles","args":["http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap\u003c/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA\u003c/a>"}]},{"method":"addMarkers","args":[27.760501,-82.633365,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"IMARS",null,null]}],"limits":{"lat":[27.760501,27.760501],"lng":[-82.633365,-82.633365]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="time-series" class="section level3">
+<h3>time series</h3>
+<pre class="r"><code>library(dygraphs)
+dygraph(nhtemp, main = &quot;New Haven Temperatures&quot;) %&gt;% 
+  dyRangeSelector(dateWindow = c(&quot;1920-01-01&quot;, &quot;1960-01-01&quot;))</code></pre>
+<div id="htmlwidget-3567" style="width:672px;height:480px;" class="dygraphs html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3567">{"x":{"attrs":{"title":"New Haven Temperatures","labels":["year","V1"],"legend":"auto","retainDateWindow":false,"axes":{"x":{"pixelsPerLabel":60}},"showRangeSelector":true,"dateWindow":["1920-01-01T00:00:00Z","1960-01-01T00:00:00Z"],"rangeSelectorHeight":40,"rangeSelectorPlotFillColor":" #A7B1C4","rangeSelectorPlotStrokeColor":"#808FAB","interactionModel":"Dygraph.Interaction.defaultModel"},"scale":"yearly","annotations":[],"shadings":[],"events":[],"format":"date","data":[["1912-01-01T00:00:00Z","1913-01-01T00:00:00Z","1914-01-01T00:00:00Z","1915-01-01T00:00:00Z","1916-01-01T00:00:00Z","1917-01-01T00:00:00Z","1918-01-01T00:00:00Z","1919-01-01T00:00:00Z","1920-01-01T00:00:00Z","1921-01-01T00:00:00Z","1922-01-01T00:00:00Z","1923-01-01T00:00:00Z","1924-01-01T00:00:00Z","1925-01-01T00:00:00Z","1926-01-01T00:00:00Z","1927-01-01T00:00:00Z","1928-01-01T00:00:00Z","1929-01-01T00:00:00Z","1930-01-01T00:00:00Z","1931-01-01T00:00:00Z","1932-01-01T00:00:00Z","1933-01-01T00:00:00Z","1934-01-01T00:00:00Z","1935-01-01T00:00:00Z","1936-01-01T00:00:00Z","1937-01-01T00:00:00Z","1938-01-01T00:00:00Z","1939-01-01T00:00:00Z","1940-01-01T00:00:00Z","1941-01-01T00:00:00Z","1942-01-01T00:00:00Z","1943-01-01T00:00:00Z","1944-01-01T00:00:00Z","1945-01-01T00:00:00Z","1946-01-01T00:00:00Z","1947-01-01T00:00:00Z","1948-01-01T00:00:00Z","1949-01-01T00:00:00Z","1950-01-01T00:00:00Z","1951-01-01T00:00:00Z","1952-01-01T00:00:00Z","1953-01-01T00:00:00Z","1954-01-01T00:00:00Z","1955-01-01T00:00:00Z","1956-01-01T00:00:00Z","1957-01-01T00:00:00Z","1958-01-01T00:00:00Z","1959-01-01T00:00:00Z","1960-01-01T00:00:00Z","1961-01-01T00:00:00Z","1962-01-01T00:00:00Z","1963-01-01T00:00:00Z","1964-01-01T00:00:00Z","1965-01-01T00:00:00Z","1966-01-01T00:00:00Z","1967-01-01T00:00:00Z","1968-01-01T00:00:00Z","1969-01-01T00:00:00Z","1970-01-01T00:00:00Z","1971-01-01T00:00:00Z"],[49.9,52.3,49.4,51.1,49.4,47.9,49.8,50.9,49.3,51.9,50.8,49.6,49.3,50.6,48.4,50.7,50.9,50.6,51.5,52.8,51.8,51.1,49.8,50.2,50.4,51.6,51.8,50.9,48.8,51.7,51,50.6,51.7,51.5,52.1,51.3,51,54,51.4,52.7,53.1,54.6,52,52,50.9,52.6,50.2,52.6,51.6,51.9,50.5,50.9,51.7,51.4,51.7,50.8,51.9,51.8,51.9,53]]},"evals":["attrs.interactionModel"],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="water" class="section level2">
+<h2>WATER</h2>
+<div id="are-specific-or-multiple-stressors-including-changing-oceanographic-and-atmospheric-conditions-affecting-water-quality" class="section level3">
+<h3>1. Are specific or multiple stressors, including changing oceanographic and atmospheric conditions, affecting water quality?</h3>
+</div>
+<div id="what-is-the-eutrophic-condition-of-sanctuary-waters-and-how-is-it-changing" class="section level3">
+<h3>2. What is the eutrophic condition of sanctuary waters and how is it changing?</h3>
+</div>
+<div id="do-sanctuary-waters-pose-risks-to-human-health" class="section level3">
+<h3>3. Do sanctuary waters pose risks to human health?</h3>
+</div>
+<div id="what-are-the-levels-of-human-activities-that-may-influence-water-quality-and-how-are-they-changing" class="section level3">
+<h3>4. What are the levels of human activities that may influence water quality and how are they changing?</h3>
+</div>
+</div>
+<div id="habitat" class="section level2">
+<h2>HABITAT</h2>
+<div id="what-is-the-abundance-and-distribution-of-major-habitat-types-and-how-is-it-changing" class="section level3">
+<h3>5. What is the abundance and distribution of major habitat types and how is it changing?</h3>
+</div>
+<div id="what-is-the-condition-of-biologically-structured-habitats-and-how-is-it-changing" class="section level3">
+<h3>6. What is the condition of biologically-structured habitats and how is it changing?</h3>
+</div>
+<div id="what-are-the-contaminant-con--centrations-in-sanctuary-habitats-and-how-are-they-changing" class="section level3">
+<h3>7. What are the contaminant con- centrations in sanctuary habitats and how are they changing?</h3>
+</div>
+<div id="what-are-the-levels-of-human-activities-that-may-in-uence-habitat-quality-and-how-are-they-changing" class="section level3">
+<h3>8. What are the levels of human activities that may in uence habitat quality and how are they changing?</h3>
+</div>
+</div>
+<div id="living-resources" class="section level2">
+<h2>LIVING RESOURCES</h2>
+<div id="what-is-the-status-of-biodiversity-and-how-is-it-changing" class="section level3">
+<h3>9. What is the status of biodiversity and how is it changing?</h3>
+</div>
+<div id="what-is-the-status-of-non-indigenous-species-and-how-is-it-changing" class="section level3">
+<h3>10. What is the status of non-indigenous species and how is it changing?</h3>
+</div>
+<div id="what-is-the-status-of-key-species-and-how-is-it-changing" class="section level3">
+<h3>11. What is the status of key species and how is it changing?</h3>
+</div>
+<div id="what-is-the-condition-or-health-of-key-species-and-how-is-it-changing" class="section level3">
+<h3>12. What is the condition or health of key species and how is it changing?</h3>
+</div>
+<div id="what-are-the-levels-of-human-activities-that-may-in-uence-living-resource-quality-and-how-are-they-changing" class="section level3">
+<h3>13. What are the levels of human activities that may in uence living resource quality and how are they changing?</h3>
+</div>
+</div>
+<div id="maritime-archaeological-resources" class="section level2">
+<h2>MARITIME ARCHAEOLOGICAL RESOURCES</h2>
+<div id="what-is-the-integrity-of-known-maritime-archaeological-re--sources-and-how-is-it-changing" class="section level3">
+<h3>14. What is the integrity of known maritime archaeological re- sources and how is it changing?</h3>
+</div>
+<div id="do-known-maritime-archaeological-resources-pose-an-environmental-hazard-and-is-this-threat-changing" class="section level3">
+<h3>15. Do known maritime archaeological resources pose an environmental hazard and is this threat changing?</h3>
+</div>
+<div id="what-are-the-levels-of-human-ac--tivities-that-may-in-uence-maritime-archaeological-resource-quality-and-how-are-they-changing" class="section level3">
+<h3>16. What are the levels of human ac- tivities that may in uence maritime archaeological resource quality and how are they changing?</h3>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+$(document).ready(function () {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+});
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

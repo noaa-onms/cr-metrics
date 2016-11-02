@@ -1,0 +1,50 @@
+---
+output:
+  html_document:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(dygraphs) # devtools::install_github("rstudio/dygraphs")
+library(xts)
+library(lubridate)
+```
+
+```{r pinniped decreasing, echo=F, message=F}
+d = read_csv(
+  'http://oceanview.pfeg.noaa.gov/erddap/tabledap/cciea_MM_pup_count.csv?time,mean_growth_rate', 
+  skip=2, col_names=c('t','v')) %>%
+  filter(!is.nan(v))
+  
+m = d %>%
+  summarize(
+    mean    = mean(v),
+    sd      = sd(v),
+    se      = sd(v)/sqrt(length(v)),
+    se_hi   = mean(v)+se,
+    se_lo   = mean(v)-se,
+    sd_hi   = mean(v)+sd,
+    sd_lo   = mean(v)-sd,
+    ci95_hi = mean(v)+2*se,
+    ci95_lo = mean(v)-2*se)
+
+w = d %>%
+  select(-t) %>%
+  as.xts(., order.by=d$t) %>%
+  dygraph(
+    main='Female sea lion pup growth rate',
+    width=488, height=480) %>%
+  dySeries('v', color='red', strokeWidth=2, label='growth rate') %>%
+  dyAxis('x', label='Year', valueRange=c(as.Date(min(d$t)), today())) %>%
+  dyAxis('y', label='Mean growth rate') %>%
+  dyShading(from=max(d$t) - years(5), to=max(d$t), color='#CCEBD6') %>%
+  dyLimit(m$sd_hi, color='green', label='+1sd', strokePattern='solid') %>%
+  dyLimit(m$mean,  color='green', label='mean', strokePattern='dashed') %>%
+  dyLimit(m$sd_lo, color='green', label='-1sd', strokePattern='solid') %>%
+  dyRangeSelector()
+#htmlwidgets::saveWidget(w, file = "w.html", selfcontained = FALSE)
+w
+```
+

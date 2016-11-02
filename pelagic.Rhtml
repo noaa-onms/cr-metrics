@@ -1,0 +1,45 @@
+<html>
+<head>
+  <title>Pelagic</title>
+</head>
+<body>
+
+<div class="container">
+  
+  <img class="habitat" id="pelagic" src="./svg/pelagic.png"/>
+
+  <a href='pinnipeds.html' data-title="Pinnipeds" data-remote="false" data-toggle="modal" data-target="#myModal">
+  <span>
+  <!--begin.rcode echo=F, results='asis'
+    cat(readLines('svg/pinniped.svg'))
+  end.rcode-->
+  </span>
+  </a>
+  
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+      ...modal body...
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$('#myModal').on('show.bs.modal', function (e) {
+  var link = $(e.relatedTarget);
+  $(this).find(".modal-title").text(link.data("title"));
+   $(this).find(".modal-body").html('<iframe frameborder="0" width="100%" height="850" src="URL">'.replace('URL',link.attr("href")))
+})
+</script>
+
+</body>
+</html>

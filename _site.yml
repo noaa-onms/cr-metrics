@@ -1,0 +1,20 @@
+name: "cr-info"
+output_dir: "."
+navbar:
+  title: "Sanctuary Status"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Pelagic"
+      href: pelagic.html
+    - text: "Kelp Forest"
+      href: kelp_forest.html
+output:
+  html_document:
+    theme: cosmo
+    highlight: textmate
+    include:
+      in_header: _header.html
+      after_body: _footer.html
+    css: styles.css
+      

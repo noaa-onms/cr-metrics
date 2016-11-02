@@ -11,7 +11,7 @@
 
 
 
-<title>Welcome</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -212,16 +212,49 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Welcome</h1>
 
 </div>
 
 
-<p>This is a prototype site for an interactive infographic approach to displaying sanctuary conditions based on time series data.</p>
+<div id="crmetrics" class="section level1">
+<h1>CRmetrics</h1>
+<p>Condition Report metrics to inform National Marine Sanctuaries</p>
+<div id="by-sanctuary" class="section level2">
+<h2>By Sanctuary</h2>
+<p><a href="http://floridakeys.noaa.gov/">Florida Keys Sanctuary</a></p>
+</div>
+<div id="interactive-infographic" class="section level2">
+<h2>Interactive Infographic</h2>
 <ul>
-<li><a href="./pelagic.html">Pelagic</a></li>
-<li><a href="./kelp_forest.html">Kelp Forest</a></li>
+<li><p>data: <a href="http://www.noaa.gov/iea/regions/california-current-region/index.html">IEA - California Current Integrated Ecosystem Assessment (CCIEA)</a></p>
+<ul>
+<li><a href="http://www.noaa.gov/iea/regions/california-current-region/indicators/marine-mammals.html">Marine Mammals</a></li>
+</ul></li>
 </ul>
+<p>Strategy:</p>
+<ul>
+<li>fullscreen background</li>
+<li>SVG icons colored by status</li>
+<li>parameterized reports to generate:</li>
+<li>CSS for color of SVG icons</li>
+<li>modal dygraph popups</li>
+<li>website menu</li>
+<li>iframe is the key!</li>
+</ul>
+</div>
+<div id="debug" class="section level2">
+<h2>Debug</h2>
+<pre class="bash"><code># launch web server
+cd &#39;/Users/bbest/github/cr-metrics&#39;; python -m http.server 8000 &amp;
+
+# open in browser
+/usr/bin/open -a &#39;/Applications/Google Chrome.app&#39; &#39;http://localhost:8000/proto.html&#39;
+
+# kill web server
+ps -eaf | grep http.server
+kill ...</code></pre>
+</div>
+</div>
 
 <p>Copyright &copy; 2016 Marine Biodiversity Observation Network & NOAA National Marine Sanctuaries.</p>
 
