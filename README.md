@@ -65,4 +65,6 @@ rmarkdown::render_site()
 
 ## TODO
 
-- populate rest of available timeseries from [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html)
+- Populate California example, using available ERDDAP-connected timeseries from [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html)
+
+- Populate Florida Keys NMS, working in particular with people at FKNMS (Mike Buchman, Steve Gittings) and FL MBON (Megan Hepner)
