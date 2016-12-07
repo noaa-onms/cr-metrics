@@ -49,8 +49,6 @@ params:
 ---
 ```
 
-    
 ## TODO
 
 - populate rest of available timeseries from [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html)
-

@@ -11,7 +11,7 @@
 
 
 
-<title>Kelp Forest</title>
+<title></title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,7 +19,6 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <script src="./libs/d3-v3/d3.v3.min.js"></script>
 <script src="./libs/d3-dsv-v1/d3-dsv.v1.min.js"></script>
 
@@ -222,96 +221,60 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Kelp Forest</h1>
 
 </div>
 
 
-<div id="habitat">
-
+<div id="notes" class="section level1">
+<h1>Notes</h1>
+<div id="by-sanctuary" class="section level2">
+<h2>By Sanctuary</h2>
+<p><a href="http://floridakeys.noaa.gov/">Florida Keys Sanctuary</a></p>
 </div>
-<script>
-  // define div for tooltip
-  var div = d3.select("body").append("div")
-    .attr("class", "tooltip")
-    .style("opacity", 0);
-
-  d3.xml("./svg/kelp-forest.svg")
-    .mimeType("image/svg+xml")
-    .get(function(error, xml) {
-      if (error) throw error;
-      //document.body.appendChild(xml.documentElement);
-      //d3.select("#habitat").append(xml.documentElement)
-      document.getElementById('habitat').appendChild(xml.documentElement);
-
-      // read csv
-      d3.csv("./svg/paths.csv", function(error, data) {
-        if (error) throw error;
-        // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
-
-        // filter by habitat
-        data = data.filter(function(row) {
-          return row['habitat'] == 'kelp-forest';
-        })
-
-        // iterate over rows of svg paths
-        data.forEach(function(d) {
-          // console.log(d); // ["Year", "Make", "Model", "Length"]
-
-          // color
-          d3.selectAll(d.status_path)
-            .style("fill", d.status_color);
-
-          // link
-          d3.selectAll(d.link_path)
-            .attr("xlink:href", d.link)
-            .attr("xlink:data-title", d.link_title)
-            .attr("xlink:data-remote", "false")
-            .attr("xlink:data-toggle", "modal")
-            .attr("xlink:data-target", "#myModal")
-            .on("mouseover", function(x) {
-              div.transition()
-                .duration(200)
-                .style("opacity", .9);
-              div.html(d.link_title + "<br/>"  + d.status_text)
-                .style("left", (d3.event.pageX) + "px")
-                .style("top", (d3.event.pageY - 28) + "px");
-              })
-            .on("mouseout", function(d) {
-              div.transition()
-              .duration(500)
-              div.style("opacity", 0);
-            });
-        }); // end: data.forEach()
-      }); // end: d3.csv()
-
-  });
-</script>
-<!-- Modal -->
-<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-<div class="modal-dialog" role="document">
-<div class="modal-content">
-<div class="modal-header">
-<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-<span aria-hidden="true">×</span>
-</button>
-<h4 class="modal-title" id="myModalLabel">
-Modal title
-</h4>
+<div id="interactive-infographic" class="section level2">
+<h2>Interactive Infographic</h2>
+<ul>
+<li><p>data: <a href="http://www.noaa.gov/iea/regions/california-current-region/index.html">IEA - California Current Integrated Ecosystem Assessment (CCIEA)</a></p>
+<ul>
+<li><a href="http://www.noaa.gov/iea/regions/california-current-region/indicators/marine-mammals.html">Marine Mammals</a></li>
+</ul></li>
+</ul>
+<p>Strategy:</p>
+<ul>
+<li>fullscreen background</li>
+<li>SVG icons colored by status</li>
+<li>parameterized reports to generate:</li>
+<li>CSS for color of SVG icons</li>
+<li>modal dygraph popups</li>
+<li>website menu</li>
+<li>iframe is the key!</li>
+</ul>
 </div>
-<div class="modal-body">
-…modal body…
+<div id="debug" class="section level2">
+<h2>Debug</h2>
+<pre class="bash"><code># launch web server
+cd &#39;/Users/bbest/github/cr-metrics&#39;; python -m http.server 8000 &amp;
+
+# open in browser
+/usr/bin/open -a &#39;/Applications/Google Chrome.app&#39; &#39;http://localhost:8000/pelagic.html&#39;
+
+# kill web server
+ps -eaf | grep http.server
+kill ...</code></pre>
+<ul>
+<li><a href="http://alignedleft.com/tutorials/d3/an-svg-primer">An SVG primer — Scott Murray — alignedleft</a></li>
+<li><a href="http://website.education.wisc.edu/~swu28/d3t/concept.html">D3 - A Beginner’s Guide to Using D3</a></li>
+</ul>
+</div>
+<div id="js" class="section level2">
+<h2>JS</h2>
+<ul>
+<li><a href="http://gruntjs.com/getting-started#package.json">Getting started - Grunt: The JavaScript Task Runner</a></li>
+<li><a href="https://docs.npmjs.com/cli/install">install | npm Documentation</a></li>
+<li><a href="https://github.com/sapegin/grunt-bower-concat">sapegin/grunt-bower-concat: Bower components concatenator for Grunt</a></li>
+</ul>
 </div>
 </div>
-</div>
-</div>
-<script>
-$('#myModal').on('show.bs.modal', function (e) {
-  var link = $(e.relatedTarget);
-  $(this).find(".modal-title").text(link.data("title"));
-  $(this).find(".modal-body").html('<iframe frameborder="0" width="100%" height="850" src="URL">'.replace('URL',link.attr("href")))
-})
-</script>
 
 <p>Copyright &copy; 2016 Marine Biodiversity Observation Network & NOAA National Marine Sanctuaries.</p>
 
