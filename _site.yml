@@ -17,4 +17,5 @@ output:
       in_header: _header.html
       after_body: _footer.html
     css: styles.css
+    lib_dir: libs
       

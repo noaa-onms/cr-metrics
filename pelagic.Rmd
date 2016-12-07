@@ -6,7 +6,12 @@ title: "Pelagic"
 svg_pinniped = readLines('svg/pinniped.svg')
 ```
 
-<div class="container"><img class="habitat" id="pelagic" src="./svg/pelagic.png"/><a href='timeseries/pinnipeds.html' data-title="Pinnipeds" data-remote="false" data-toggle="modal" data-target="#myModal"><span>`r svg_pinniped`</span></a></div>
+<div class="container">
+  <img class="habitat" id="pelagic" src="./svg/pelagic.png"/>
+  <a href='timeseries/pinnipeds.html' data-title="Pinnipeds" data-remote="false" data-toggle="modal" data-target="#myModal">
+  <span>`r svg_pinniped`</span>
+  </a>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
