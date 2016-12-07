@@ -5,4 +5,4 @@ title: "Welcome"
 This is a prototype site for an interactive infographic approach to displaying sanctuary conditions based on time series data.
 
 - [Pelagic](./pelagic.html)
-- [Kelp Forest](./kelp_forest.html)
+- [Kelp Forest](./kelp-forest.html)
