@@ -2,7 +2,10 @@
 title: "Welcome"
 ---
 
-This is a demonstration site for an interactive infographic approach to displaying sanctuary conditions based on time series data, proposed by Jenn Brown.
+This is a demonstration site for Condition Report metrics (cr-metrics) to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
 
-- [Pelagic](./pelagic.html)
-- [Kelp Forest](./kelp-forest.html)
+## Habitats
+
+- [**Pelagic**](./pelagic.html)
+
+- [**Kelp Forest**](./kelp-forest.html)

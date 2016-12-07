@@ -1,111 +1,56 @@
-# CRmetrics
+# cr-metrics
 
-Condition Report metrics to inform National Marine Sanctuaries
-
-## By Sanctuary
-
-[Florida Keys Sanctuary](http://floridakeys.noaa.gov/)
+Condition Report metrics to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
 
 ## Process
 
-1. Edit Adobe Illustrator file (`*.ai`) in free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
-  - remove text labels
-  - add ID to element or group of elements:
-    ![](img/inkscape-screenshot_svg-id.png)
-2.
+The process is fairly straightfoward to integrate:
 
-## Interactive Infographic
+- **habitat illustration**: vector rendering of habitat with elements (species or other)
 
-- data: [IEA - California Current Integrated Ecosystem Assessment (CCIEA)](http://www.noaa.gov/iea/regions/california-current-region/index.html)
+- **data pages**: timeseries plots or maps of data
 
-    - [Marine Mammals](http://www.noaa.gov/iea/regions/california-current-region/indicators/marine-mammals.html)
+Please visit [Help & Documentation for MBON - Applications - Interactive Infographics](https://marinebon.github.io/help/apps.html#interactive-infographics) for more background.
 
-Strategy:
+1. Edit the Adobe Illustrator file (`*.ai`) using the free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
+    - remove text labels
+    - add **ID** to element or group of elements:
+    
+        ![](img/inkscape-screenshot_svg-id.png)
+    - save to folder `svg/*.svg` as "Plain SVG" (such as `svg/pelagic.svg`)
+    
+2. Add rows to the **`svg/paths.csv`**:
 
-- fullscreen background
-- SVG icons colored by status
-- parameterized reports to generate:
-  - CSS for color of SVG icons
-  - modal dygraph popups
-- website menu
-- iframe is the key!
+    habitat     | status_path        | status_color | status_text | link_path     | link                   | link_title
+    ------------|--------------------|--------------|-------------|---------------|------------------------|------------
+    pelagic     | path#whales        | red          | decreasing  | path#whales   | ./pages/pinnipeds.html | Whales
+    pelagic     | g#forage-fish path | green        | increasing  | g#forage-fish | ./pages/pinnipeds.html | Forage Fish
+    kelp-forest | path#otter         | purple       | stable      | path#otter    | ./pages/pinnipeds.html | Sea Otters
+    
+    - **habitat**: the unique name to filter for elements of this habitat scene
+    - **status_path**: the SVG path, either `path#element` (eg `path#whales`) for single element, or `g#element path` for grouped elements (eg `g#forage-fish path`)
+    - **status_color**: the color of the element reflecting the status
+    - **status_text**: the text of the element reflecting the status that appears on hover
+    - **link_path**: the SVG path, either `path#element` (eg `path#whales`) for single element, or `g#element` for grouped elements (eg `g#forage-fish`)
+    - **link**: the hyperlink to the page of corresponding data (usually timeseries)
+    - **link_title**: the title that shows at the top of the modal popup window containing the page when the element is clicked
 
-## Debug
+3. Create a new habitat.Rmd page:
 
-```bash
-# launch web server
-cd '/Users/bbest/github/cr-metrics'; python -m http.server 8000 &
-
-# open in browser
-/usr/bin/open -a '/Applications/Google Chrome.app' 'http://localhost:8000/pelagic.html'
-
-# kill web server
-ps -eaf | grep http.server
-kill ...
+    - Copy existing habitat.Rmd (such as `pelagic.Rmd`) and save as new *.Rmd
+    - Update parameters at top of page to reflect the filter to the 
+    
+        ```yaml
+---
+title: "Kelp Forest"
+params:
+   svg:    "./svg/kelp-forest.svg"
+   filter: "kelp-forest"
+---
 ```
 
-* [An SVG primer — Scott Murray — alignedleft](http://alignedleft.com/tutorials/d3/an-svg-primer)
-* [D3 - A Beginner's Guide to Using D3](http://website.education.wisc.edu/~swu28/d3t/concept.html)
+    
+## TODO
 
+- populate rest of available timeseries from [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html)
 
-
-## JS
-
-- [Getting started - Grunt: The JavaScript Task Runner](http://gruntjs.com/getting-started#package.json)
-- [install | npm Documentation](https://docs.npmjs.com/cli/install)
-- [sapegin/grunt-bower-concat: Bower components concatenator for Grunt](https://github.com/sapegin/grunt-bower-concat)
-```
-# create package.json
-cd ~/github/cr-metrics
-npm init
-
-# add d3 package locally
-npm install d3 --save-dev
-npm install d3-dsv --save-dev
-
-#
-npm install grunt-bower-concat --save-dev
-
-# Installing Grunt and gruntplugins
-npm install grunt --save-dev
-npm install grunt-contrib-jshint --save-dev
-```
-
-# Grunt ...
-
-The following command overwrote above...
-
-```bash
-grunt-init --force jquery
-```
-
-# Cr Metrics
-
-The best jQuery plugin ever.
-
-## Getting Started
-Download the [production version][min] or the [development version][max].
-
-[min]: https://raw.github.com/marinebon/cr-metrics/master/dist/cr-metrics.min.js
-[max]: https://raw.github.com/marinebon/cr-metrics/master/dist/cr-metrics.js
-
-In your web page:
-
-```html
-<script src="jquery.js"></script>
-<script src="dist/cr-metrics.min.js"></script>
-<script>
-jQuery(function($) {
-  $.awesome(); // "awesome"
-});
-</script>
-```
-
-## Documentation
-_(Coming soon)_
-
-## Examples
-_(Coming soon)_
-
-## Release History
-_(Nothing yet)_
