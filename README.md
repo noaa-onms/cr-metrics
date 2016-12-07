@@ -6,6 +6,13 @@ Condition Report metrics to inform National Marine Sanctuaries
 
 [Florida Keys Sanctuary](http://floridakeys.noaa.gov/)
 
+## Process
+
+1. Edit Adobe Illustrator file (`*.ai`) in free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
+  - remove text labels
+  - add ID to element or group of elements:
+    ![](img/inkscape-screenshot_svg-id.png)
+2.
 
 ## Interactive Infographic
 
@@ -30,7 +37,7 @@ Strategy:
 cd '/Users/bbest/github/cr-metrics'; python -m http.server 8000 &
 
 # open in browser
-/usr/bin/open -a '/Applications/Google Chrome.app' 'http://localhost:8000/index.html'
+/usr/bin/open -a '/Applications/Google Chrome.app' 'http://localhost:8000/pelagic.html'
 
 # kill web server
 ps -eaf | grep http.server

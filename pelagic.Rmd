@@ -1,17 +1,69 @@
 ---
 title: "Pelagic"
+params:
+   svg:    './svg/pelagic.svg'
+   filter: 'pelagic'
 ---
 
-```{r svgs, echo=FALSE}
-svg_pinniped = readLines('svg/pinniped.svg')
-```
+<div id="habitat"></div>
 
-<div class="container">
-  <img class="habitat" id="pelagic" src="./svg/pelagic.png"/>
-  <a href='timeseries/pinnipeds.html' data-title="Pinnipeds" data-remote="false" data-toggle="modal" data-target="#myModal">
-  <span>`r svg_pinniped`</span>
-  </a>
-</div>
+<script>
+  // define div for tooltip
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  d3.xml("`r params$svg`")
+    .mimeType("image/svg+xml")
+    .get(function(error, xml) {
+      if (error) throw error;
+      //document.body.appendChild(xml.documentElement);
+      //d3.select("#habitat").append(xml.documentElement)
+      document.getElementById('habitat').appendChild(xml.documentElement);
+
+      // read csv
+      d3.csv("./svg/paths.csv", function(error, data) {
+        if (error) throw error;
+        // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
+
+        // filter by habitat
+        data = data.filter(function(row) {
+          return row['habitat'] == '`r params$filter`';
+        })
+
+        // iterate over rows of svg paths
+        data.forEach(function(d) {
+          // console.log(d); // ["Year", "Make", "Model", "Length"]
+
+          // color
+          d3.selectAll(d.status_path)
+            .style("fill", d.status_color);
+
+          // link
+          d3.selectAll(d.link_path)
+            .attr("xlink:href", d.link)
+            .attr("xlink:data-title", d.link_title)
+            .attr("xlink:data-remote", "false")
+            .attr("xlink:data-toggle", "modal")
+            .attr("xlink:data-target", "#myModal")
+            .on("mouseover", function(x) {
+              div.transition()
+                .duration(200)
+                .style("opacity", .9);
+              div.html(d.link_title + "<br/>"  + d.status_text)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+              })
+            .on("mouseout", function(d) {
+              div.transition()
+              .duration(500)
+              div.style("opacity", 0);
+            });
+        }); // end: data.forEach()
+      }); // end: d3.csv()
+
+  });
+</script>
 
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

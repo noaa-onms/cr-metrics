@@ -1,5 +1,6 @@
 name: "cr-info"
-output_dir: "."
+output_dir: docs
+lib_dir: libs
 navbar:
   title: "Sanctuary Status"
   left:
@@ -16,6 +17,5 @@ output:
     include:
       in_header: _header.html
       after_body: _footer.html
-    css: styles.css
-    lib_dir: libs
+    
       
