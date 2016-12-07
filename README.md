@@ -49,6 +49,20 @@ params:
 ---
 ```
 
+4. Build Website. There's either a button in RStudio under the Build tab, or you can use the R command:
+
+    ```R
+rmarkdown::render_site()
+```
+
+    The website gets built into the `docs/` folder.
+
+5. Push to website. This repository uses Github Pages:
+
+    - code: https://github.com/marinebon/cr-metrics
+
+    - site: https://marinebon.github.io/cr-metrics
+
 ## TODO
 
 - populate rest of available timeseries from [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html)
