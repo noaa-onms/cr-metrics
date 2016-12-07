@@ -9,7 +9,7 @@ navbar:
     - text: "Pelagic"
       href: pelagic.html
     - text: "Kelp Forest"
-      href: kelp_forest.html
+      href: kelp-forest.html
 output:
   html_document:
     theme: cosmo
