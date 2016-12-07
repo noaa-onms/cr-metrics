@@ -10,6 +10,9 @@ navbar:
       href: pelagic.html
     - text: "Kelp Forest"
       href: kelp-forest.html
+  right:
+    - icon: fa-info-circle fa-lg
+      href: "README.html"
 output:
   html_document:
     theme: cosmo

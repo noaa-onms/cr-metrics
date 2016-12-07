@@ -2,7 +2,7 @@
 title: "Welcome"
 ---
 
-This is a prototype site for an interactive infographic approach to displaying sanctuary conditions based on time series data.
+This is a demonstration site for an interactive infographic approach to displaying sanctuary conditions based on time series data, proposed by Jenn Brown.
 
 - [Pelagic](./pelagic.html)
 - [Kelp Forest](./kelp-forest.html)
