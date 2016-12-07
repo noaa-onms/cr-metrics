@@ -1,0 +1,9 @@
+---
+title: "Kelp Forest"
+params:
+   svg:    "./svg/kelp-forest.svg"
+   filter: "kelp-forest"
+---
+
+```{r, child="_svg.Rmd"}
+```
