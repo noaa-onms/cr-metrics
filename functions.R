@@ -16,6 +16,8 @@ output:
   html_document:
     self_contained: false
     lib_dir: "libs"
+    fig_height: 2
+    fig_width: 4
 params:
   element: "pinnipeds"
 ---
