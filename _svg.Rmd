@@ -15,7 +15,7 @@
       document.getElementById('habitat').appendChild(xml.documentElement);
 
       // read csv
-      d3.csv("./svg/paths.csv", function(error, data) {
+      d3.csv("./svg/elements.csv", function(error, data) {
         if (error) throw error;
         // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
 

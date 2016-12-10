@@ -244,20 +244,22 @@ $(document).ready(function () {
 <img src="img/inkscape-screenshot_svg-id.png" /></li>
 <li><p>save to folder <code>svg/*.svg</code> as “Plain SVG” (such as <code>svg/pelagic.svg</code>)</p></li>
 </ul></li>
-<li><p>Add rows to the <strong><code>svg/paths.csv</code></strong>:</p>
-<table style="width:100%;">
+<li><p>Add rows to the <strong><code>svg/elements.csv</code></strong>:</p>
+<table>
 <colgroup>
+<col width="10%" />
+<col width="10%" />
+<col width="14%" />
 <col width="11%" />
-<col width="17%" />
+<col width="10%" />
 <col width="12%" />
-<col width="11%" />
-<col width="13%" />
-<col width="21%" />
-<col width="11%" />
+<col width="19%" />
+<col width="10%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>habitat</th>
+<th>id</th>
 <th>status_path</th>
 <th>status_color</th>
 <th>status_text</th>
@@ -269,6 +271,7 @@ $(document).ready(function () {
 <tbody>
 <tr class="odd">
 <td>pelagic</td>
+<td>whales</td>
 <td>path#whales</td>
 <td>red</td>
 <td>decreasing</td>
@@ -278,6 +281,7 @@ $(document).ready(function () {
 </tr>
 <tr class="even">
 <td>pelagic</td>
+<td>forage-fish</td>
 <td>g#forage-fish path</td>
 <td>green</td>
 <td>increasing</td>
@@ -287,7 +291,8 @@ $(document).ready(function () {
 </tr>
 <tr class="odd">
 <td>kelp-forest</td>
-<td>path#otter</td>
+<td>otters</td>
+<td>path#otters</td>
 <td>purple</td>
 <td>stable</td>
 <td>path#otter</td>
@@ -298,6 +303,7 @@ $(document).ready(function () {
 </table>
 <ul>
 <li><strong>habitat</strong>: the unique name to filter for elements of this habitat scene</li>
+<li><strong>id</strong>: unique element identifier</li>
 <li><strong>status_path</strong>: the SVG path, either <code>path#element</code> (eg <code>path#whales</code>) for single element, or <code>g#element path</code> for grouped elements (eg <code>g#forage-fish path</code>)</li>
 <li><strong>status_color</strong>: the color of the element reflecting the status</li>
 <li><strong>status_text</strong>: the text of the element reflecting the status that appears on hover</li>

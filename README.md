@@ -19,15 +19,16 @@ Please visit [Help & Documentation for MBON - Applications - Interactive Infogra
         ![](img/inkscape-screenshot_svg-id.png)
     - save to folder `svg/*.svg` as "Plain SVG" (such as `svg/pelagic.svg`)
     
-2. Add rows to the **`svg/paths.csv`**:
+2. Add rows to the **`svg/elements.csv`**:
 
-    habitat     | status_path        | status_color | status_text | link_path     | link                   | link_title
-    ------------|--------------------|--------------|-------------|---------------|------------------------|------------
-    pelagic     | path#whales        | red          | decreasing  | path#whales   | ./pages/pinnipeds.html | Whales
-    pelagic     | g#forage-fish path | green        | increasing  | g#forage-fish | ./pages/pinnipeds.html | Forage Fish
-    kelp-forest | path#otter         | purple       | stable      | path#otter    | ./pages/pinnipeds.html | Sea Otters
+    habitat     | id          | status_path        | status_color | status_text | link_path     | link                   | link_title
+    ------------|-------------|-----------------|--------------|-------------|---------------|------------------------|------------
+    pelagic     | whales      | path#whales        | red          | decreasing  | path#whales   | ./pages/pinnipeds.html | Whales
+    pelagic     | forage-fish | g#forage-fish path | green        | increasing  | g#forage-fish | ./pages/pinnipeds.html | Forage Fish
+    kelp-forest | otters      | path#otters         | purple       | stable      | path#otter    | ./pages/pinnipeds.html | Sea Otters
     
     - **habitat**: the unique name to filter for elements of this habitat scene
+    - **id**: unique element identifier
     - **status_path**: the SVG path, either `path#element` (eg `path#whales`) for single element, or `g#element path` for grouped elements (eg `g#forage-fish path`)
     - **status_color**: the color of the element reflecting the status
     - **status_text**: the text of the element reflecting the status that appears on hover
