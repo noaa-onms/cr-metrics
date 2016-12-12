@@ -4,7 +4,7 @@ Condition Report metrics to inform on National Marine Sanctuaries status using i
 
 ## Process
 
-Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running following R code will generate the website for pulling up timeseries plots by clicking on the elements:
+Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running the following R code will generate the website for pulling up timeseries plots by clicking on the elements:
 
 ```R
 source('functions.R')
