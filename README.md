@@ -4,7 +4,7 @@ Condition Report metrics to inform on National Marine Sanctuaries status using i
 
 ## Process
 
-Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), the running following R code will generate the website materials:
+Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running following R code will generate the website for pulling up timeseries plots by clicking on the elements:
 
 ```R
 source('functions.R')
@@ -13,10 +13,14 @@ create_site()
 
 Besides the habitat illustration as a scalable vector graphics file (\*.svg), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
 
-- **elements.csv**: identifies the elements in the svg habitat scene
-- **indicators.csv**: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the element
+- **elements.csv**: identifies the elements in the svg habitat scene(s)
+- **indicators.csv**: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element
 
 The website content is output to the `docs/` folder, providing an interactive user experience with only basic web files (\*.html, \*.js, \*.css) that any web server can host.
+
+You can see the files for this site hosted on Github here:
+
+- https://github.com/marinebon/cr-metrics
 
 Please visit [Help & Documentation for MBON - Applications - Interactive Infographics](https://marinebon.github.io/help/apps.html#interactive-infographics) for more background.
 
