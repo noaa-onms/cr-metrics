@@ -26,7 +26,11 @@ Please visit [Help & Documentation for MBON - Applications - Interactive Infogra
 
 Here are detailed steps to prep the necessary files (svg scenes, csv tables of elements and indicators)...
 
-1. Edit the Adobe Illustrator file (`*.ai`) using the free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
+1. Download and unzip the template site here:
+
+- https://github.com/marinebon/cr-metrics/archive/master.zip
+
+1. Edit the vector graphics file of the habitat scene with elements using the free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
     - remove text labels
     - add **ID** to element or group of elements:
     
@@ -50,25 +54,19 @@ Here are detailed steps to prep the necessary files (svg scenes, csv tables of e
     - **link**: the hyperlink to the page of corresponding data (usually timeseries)
     - **link_title**: the title that shows at the top of the modal popup window containing the page when the element is clicked
 
-3. Create a new habitat.Rmd page:
+3. Add / edit the `indicators.csv` with the following key fields, originally drawn from the site [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html):
 
-    - Copy existing habitat.Rmd (such as `pelagic.Rmd`) and save as new *.Rmd
-    - Update parameters at top of page to reflect the filter to the 
+    - **indicator**: name of indicator, which will become the timeseries plot's title
+    - **y_label**: label on the y-axis describing the value measured over time
+    - **csv_url**: the link to the ERDDAP data in CSV format, extractable from the ERDDAP image URL
     
-        ```yaml
----
-title: "Kelp Forest"
-params:
-   svg:    "./svg/kelp-forest.svg"
-   filter: "kelp-forest"
----
-```
-
-4. Build Website. There's either a button in RStudio under the Build tab, or you can use the R command:
+4. Create the site by running the following R code:
 
     ```R
-rmarkdown::render_site()
+source('functions.R')
+create_site()
 ```
+    - Be sure that your current working directory is in the `cr-metrics/` root folder (eg with `setwd()` in R).
 
     The website gets built into the `docs/` folder.
 

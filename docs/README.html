@@ -246,7 +246,13 @@ create_site()</code></pre>
 <p>Please visit <a href="https://marinebon.github.io/help/apps.html#interactive-infographics">Help &amp; Documentation for MBON - Applications - Interactive Infographics</a> for more background.</p>
 <p>Here are detailed steps to prep the necessary files (svg scenes, csv tables of elements and indicators)…</p>
 <ol style="list-style-type: decimal">
-<li>Edit the Adobe Illustrator file (<code>*.ai</code>) using the free <a href="http://inkscape.org">Inkscape</a> program that natively uses scalable vector graphics (<code>*.svg</code>) format:
+<li>Download and unzip the template site here:</li>
+</ol>
+<ul>
+<li><a href="https://github.com/marinebon/cr-metrics/archive/master.zip" class="uri">https://github.com/marinebon/cr-metrics/archive/master.zip</a></li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Edit the vector graphics file of the habitat scene with elements using the free <a href="http://inkscape.org">Inkscape</a> program that natively uses scalable vector graphics (<code>*.svg</code>) format:
 <ul>
 <li>remove text labels</li>
 <li><p>add <strong>ID</strong> to element or group of elements:</p>
@@ -320,19 +326,18 @@ create_site()</code></pre>
 <li><strong>link</strong>: the hyperlink to the page of corresponding data (usually timeseries)</li>
 <li><strong>link_title</strong>: the title that shows at the top of the modal popup window containing the page when the element is clicked</li>
 </ul></li>
-<li><p>Create a new habitat.Rmd page:</p>
+<li><p>Add / edit the <code>indicators.csv</code> with the following key fields, originally drawn from the site <a href="https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html">IEA - California Current</a>:</p>
 <ul>
-<li>Copy existing habitat.Rmd (such as <code>pelagic.Rmd</code>) and save as new *.Rmd</li>
-<li><p>Update parameters at top of page to reflect the filter to the</p>
-<pre class="yaml"><code>---
-title: &quot;Kelp Forest&quot;
-params:
-   svg:    &quot;./svg/kelp-forest.svg&quot;
-   filter: &quot;kelp-forest&quot;
----</code></pre></li>
+<li><strong>indicator</strong>: name of indicator, which will become the timeseries plot’s title</li>
+<li><strong>y_label</strong>: label on the y-axis describing the value measured over time</li>
+<li><strong>csv_url</strong>: the link to the ERDDAP data in CSV format, extractable from the ERDDAP image URL</li>
 </ul></li>
-<li><p>Build Website. There’s either a button in RStudio under the Build tab, or you can use the R command:</p>
-<pre class="r"><code>rmarkdown::render_site()</code></pre>
+<li><p>Create the site by running the following R code:</p>
+<pre class="r"><code>source(&#39;functions.R&#39;)
+create_site()</code></pre>
+<ul>
+<li>Be sure that your current working directory is in the <code>cr-metrics/</code> root folder (eg with <code>setwd()</code> in R).</li>
+</ul>
 <p>The website gets built into the <code>docs/</code> folder.</p></li>
 <li><p>Push to website. This repository uses Github Pages:</p>
 <ul>
