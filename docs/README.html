@@ -230,12 +230,17 @@ $(document).ready(function () {
 <p>Condition Report metrics to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).</p>
 <div id="process" class="section level2">
 <h2>Process</h2>
-<p>The process is fairly straightfoward to integrate:</p>
+<p>Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), the running following R code will generate the website materials:</p>
+<pre class="r"><code>source(&#39;functions.R&#39;)
+create_site()</code></pre>
+<p>Besides the habitat illustration as a scalable vector graphics file (*.svg), the <code>create_site()</code> function relies on two tables in comma-seperated value (*.csv) format:</p>
 <ul>
-<li><p><strong>habitat illustration</strong>: vector rendering of habitat with elements (species or other)</p></li>
-<li><p><strong>data pages</strong>: timeseries plots or maps of data</p></li>
+<li><strong>elements.csv</strong>: identifies the elements in the svg habitat scene</li>
+<li><strong>indicators.csv</strong>: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the element</li>
 </ul>
+<p>The website content is output to the <code>docs/</code> folder, providing an interactive user experience with only basic web files (*.html, *.js, *.css) that any web server can host.</p>
 <p>Please visit <a href="https://marinebon.github.io/help/apps.html#interactive-infographics">Help &amp; Documentation for MBON - Applications - Interactive Infographics</a> for more background.</p>
+<p>Here are detailed steps to prep the necessary files (svg scenes, csv tables of elements and indicators)…</p>
 <ol style="list-style-type: decimal">
 <li>Edit the Adobe Illustrator file (<code>*.ai</code>) using the free <a href="http://inkscape.org">Inkscape</a> program that natively uses scalable vector graphics (<code>*.svg</code>) format:
 <ul>

@@ -1,7 +1,7 @@
 # eventually functions will go into dedicated package at http://github.com/bbest/infogrpahiq
 
-create_pages = function(){
-  # create_pages()
+create_site = function(){
+  # create_site()
   
   library(tidyverse)
   

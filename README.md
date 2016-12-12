@@ -4,13 +4,23 @@ Condition Report metrics to inform on National Marine Sanctuaries status using i
 
 ## Process
 
-The process is fairly straightfoward to integrate:
+Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), the running following R code will generate the website materials:
 
-- **habitat illustration**: vector rendering of habitat with elements (species or other)
+```R
+source('functions.R')
+create_site()
+```
 
-- **data pages**: timeseries plots or maps of data
+Besides the habitat illustration as a scalable vector graphics file (\*.svg), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
+
+- **elements.csv**: identifies the elements in the svg habitat scene
+- **indicators.csv**: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the element
+
+The website content is output to the `docs/` folder, providing an interactive user experience with only basic web files (\*.html, \*.js, \*.css) that any web server can host.
 
 Please visit [Help & Documentation for MBON - Applications - Interactive Infographics](https://marinebon.github.io/help/apps.html#interactive-infographics) for more background.
+
+Here are detailed steps to prep the necessary files (svg scenes, csv tables of elements and indicators)...
 
 1. Edit the Adobe Illustrator file (`*.ai`) using the free [Inkscape](http://inkscape.org) program that natively uses scalable vector graphics (`*.svg`) format:
     - remove text labels
