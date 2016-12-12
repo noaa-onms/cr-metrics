@@ -11,10 +11,10 @@ source('functions.R')
 create_site()
 ```
 
-Besides the habitat illustration as a scalable vector graphics file (\*.svg), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
+Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
 
-- **elements.csv**: identifies the elements in the svg habitat scene(s)
-- **indicators.csv**: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element
+- [**elements.csv**](https://github.com/marinebon/cr-metrics/blob/master/svg/elements.csv): identifies the elements in the svg habitat scene(s)
+- [**indicators.csv**](https://github.com/marinebon/cr-metrics/blob/master/svg/indicators.csv): provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element
 
 The website content is output to the `docs/` folder, providing an interactive user experience with only basic web files (\*.html, \*.js, \*.css) that any web server can host.
 
