@@ -14,14 +14,27 @@ knitr::opts_chunk$set(echo=F, message=F)
 source("../functions.R")
 ```
 
+
 ```{r}
 plot_timeseries(
-  csv_tv  = "/Users/bbest/github/analysis/data/rvc_grp_years.csv",
+  csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
   title   = "Algal Farmers",
   y_label = "Average count",
   skip    = 0,
   filter  = "group == \"Algal farmer\"",
 	col_t   = "year",
   col_y   = "q_mean")
+```
+
+
+```{r}
+plot_timeseries(
+  csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
+  title   = "Algal Farmers",
+  y_label = "Species Richness",
+  skip    = 0,
+  filter  = "group == \"Algal farmer\"",
+	col_t   = "year",
+  col_y   = "n_species")
 ```
 

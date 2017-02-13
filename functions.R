@@ -5,13 +5,17 @@ create_site = function(){
   
   library(tidyverse)
   library(stringr)
+  library(rmarkdown)
+  
+  # render top level pages
+  rmarkdown::render_site()
   
   # filter indicators to element from parameter
-  d = read_csv('svg/indicators.csv') %>%
+  d = read_csv('docs/svg/indicators.csv') %>%
     filter(!is.na(csv_url) | !is.na(csv_local)) # View(d)
   
   for (x in unique(d$element)){ # x = unique(d$element)[2]
-    rmd = sprintf('pages/%s.Rmd', x) 
+    rmd = sprintf('docs/pages/%s.Rmd', x) 
     write_lines(sprintf(
 '---
 output:
@@ -58,6 +62,9 @@ ifelse(is.na(col_y[i]), 'NULL', sprintf('"%s"', col_y[i])))), rmd, append=T)
     }
     rmarkdown::render(rmd)
   }
+  
+  # serve site
+  servr::httd('docs')
 }
 
 plot_timeseries = function(
@@ -147,7 +154,7 @@ plot_timeseries = function(
     dyLimit(m$mean,  color='green', label='mean', strokePattern='dashed') %>%
     dyLimit(m$sd_lo, color='green', label='-1sd', strokePattern='solid')
     #dyRangeSelector()
-  w
+  #w
   #htmlwidgets::saveWidget(w, file = "w.html", selfcontained = FALSE)
   
   return(w)

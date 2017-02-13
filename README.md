@@ -10,9 +10,6 @@ Given a vector illustration of habitat scenes with different elements (eg pelagi
 # create pages
 source('functions.R')
 create_site()
-
-# serve locally 
-servr::httd('docs')
 ```
 
 Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:

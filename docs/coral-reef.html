@@ -254,7 +254,7 @@ $(document).ready(function () {
 
         // iterate over rows of svg paths
         data.forEach(function(d) {
-          console.log(d); // ["Year", "Make", "Model", "Length"]
+          // console.log(d); // ["Year", "Make", "Model", "Length"]
 
           // color
           d3.selectAll(d.status_path)
@@ -310,33 +310,6 @@ $('#myModal').on('show.bs.modal', function (e) {
   $(this).find(".modal-body").html('<iframe frameborder="0" width="100%" height="850" src="URL">'.replace('URL',link.attr("href")))
 })
 </script>
-<pre class="r"><code>library(tidyverse)
-library(rphylopic)
-
-
-d = read_csv(&#39;/Users/bbest/github/analysis/data/rvc_spp_group-summary.csv&#39;) %&gt;%
-  group_by(group, scientific_name) %&gt;%
-  nest()
-
-
-d = d %&gt;%
-  mutate(
-    name_search = map(scientific_name, name_search))
-
-name_search(text=&#39;Lachnolaimus maximus&#39;)
-read_csv(&#39;~/github/analysis/data/rvc_grp_years.csv&#39;) %&gt;%
-  summarize()
-  mutate(
-  ns = name_search(text = &quot;damselfish&quot;)  
-  )
-
-
-/Users/bbest/github/analysis/data/rvc_grp_years.csv
-tibble(
-  )
-
-
-rvc_spp_group-summary.csv</code></pre>
 
 <p>Copyright &copy; 2016 Marine Biodiversity Observation Network & NOAA National Marine Sanctuaries.</p>
 

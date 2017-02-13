@@ -19,7 +19,11 @@ source("../functions.R")
 plot_timeseries(
   csv_tv  = "http://oceanview.pfeg.noaa.gov/erddap/tabledap/cciea_MM_pup_count.csv?time,mean_growth_rate",
   title   = "Female sea lion pup growth rate",
-  y_label = "Mean growth rate")
+  y_label = "Mean growth rate",
+  skip    = 2,
+  filter  = NULL,
+	col_t   = NULL,
+  col_y   = NULL)
 ```
 
 
@@ -27,7 +31,11 @@ plot_timeseries(
 plot_timeseries(
   csv_tv  = "http://oceanview.pfeg.noaa.gov/erddap/tabledap/cciea_MM_pup_count.csv?time,mean_weight",
   title   = "Female sea lion pup weight index",
-  y_label = "Mean pup weight")
+  y_label = "Mean pup weight",
+  skip    = 2,
+  filter  = NULL,
+	col_t   = NULL,
+  col_y   = NULL)
 ```
 
 
@@ -35,6 +43,10 @@ plot_timeseries(
 plot_timeseries(
   csv_tv  = "http://oceanview.pfeg.noaa.gov/erddap/tabledap/cciea_MM_pup_count.csv?time,live_pup_count",
   title   = "Sea lion pup count, San Miguel Isl.",
-  y_label = "Average live pup count")
+  y_label = "Average live pup count",
+  skip    = 2,
+  filter  = NULL,
+	col_t   = NULL,
+  col_y   = NULL)
 ```
 

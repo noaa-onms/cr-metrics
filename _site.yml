@@ -10,6 +10,8 @@ navbar:
       href: pelagic.html
     - text: "Kelp Forest"
       href: kelp-forest.html
+    - text: "Coral Reef"
+      href: coral-reef.html
   right:
     - icon: fa-info-circle fa-lg
       href: "README.html"
