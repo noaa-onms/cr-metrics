@@ -77,6 +77,9 @@ ifelse(is.na(col_y[i]), 'NULL', sprintf('"%s"', col_y[i])))), rmd, append=T)
     file.copy(dir, 'docs', recursive=T)
   }
   
+  # turn off jekyll for quicker rendering
+  system('touch docs/.nojekyll')
+  
   # serve site
   servr::httd('docs')
 }

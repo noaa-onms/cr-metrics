@@ -15,6 +15,7 @@
       document.getElementById('habitat').appendChild(xml.documentElement);
 
       // read csv
+      // https://marinebon.github.io/cr-metrics/data/svg_elements.csv Failed to load resource: the server responded with a status of 404 (Not Found)
       d3.csv("./data/svg_elements.csv", function(error, data) {
         if (error) throw error;
         // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
