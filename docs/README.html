@@ -230,12 +230,46 @@ $(document).ready(function () {
 <div id="cr-metrics" class="section level1">
 <h1>cr-metrics</h1>
 <p>Condition Report metrics to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).</p>
-<div id="process" class="section level2">
-<h2>Process</h2>
+<div id="creation" class="section level2">
+<h2>Creation</h2>
 <p>Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running the following R code will generate the website for pulling up timeseries plots by clicking on the elements:</p>
 <pre class="r"><code># create pages
 source(&#39;functions.R&#39;) # clear_site()
 create_site()</code></pre>
+</div>
+<div id="files" class="section level2">
+<h2>Files</h2>
+<p>Here’s an overview of all the files as a tree in alphabetic order, except for habitat Rmarkdown files to show similarity.</p>
+<pre><code>$ tree -L 2
+.
+├── README.md                # this README with instructions
+├── _footer.html             # website header
+├── _header.html             # website footer
+├── _site.yml                # site menu
+├── _svg.Rmd                 # child Rmarkdown for habitats
+├── coral-reef.Rmd           # habitat Rmarkdown
+├── kelp-forest.Rmd          # habitat Rmarkdown
+├── pelagic.Rmd              # habitat Rmarkdown
+├── cr-metrics.Rproj         # R project file (optional)
+├── data/                    # data folder
+│   ├── csv_indicators.csv   # - table of timeseries csv
+│   └── svg_elements.csv     # - table of svg elements
+├── docs/                    # website folder, gets regenerated
+├── functions.R              # core functions to creat website
+├── img/                     # images for README
+├── index.Rmd                # home page of website
+├── libs/                    # libraries folder
+│   ├── d3-dsv.v1.min.js     # - JavaScript to read csv
+│   ├── d3.v3.min.js         # - JavaScript to manipulate svg
+│   └── styles.css           # - minor styling with CSS
+├── svg/                     # svg folder
+│   ├── coral-reef.svg       # - habitat svg
+│   ├── kelp-forest.svg      # - habitat svg
+│   └── pelagic.svg          # - habitat svg
+└── svg_prep/                # svg prep files (deletable)</code></pre>
+</div>
+<div id="process" class="section level2">
+<h2>Process</h2>
 <p>Besides the habitat illustration as a scalable vector graphics file (eg <a href="https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg">pelagics.svg</a>), the <code>create_site()</code> function relies on two tables in comma-seperated value (data/*.csv) format:</p>
 <ul>
 <li><a href="https://github.com/marinebon/cr-metrics/blob/master/data/svg_elements.csv"><strong>svg_elements.csv</strong></a>: identifies the elements in the svg habitat scene(s)</li>

@@ -2,7 +2,7 @@
 
 Condition Report metrics to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
 
-## Process
+## Creation
 
 Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running the following R code will generate the website for pulling up timeseries plots by clicking on the elements:
 
@@ -11,6 +11,42 @@ Given a vector illustration of habitat scenes with different elements (eg pelagi
 source('functions.R') # clear_site()
 create_site()
 ```
+
+## Files
+
+Here's an overview of all the files as a tree in alphabetic order, except for habitat Rmarkdown files to show similarity.
+
+```
+$ tree -L 2
+.
+├── README.md                # this README with instructions
+├── _footer.html             # website header
+├── _header.html             # website footer
+├── _site.yml                # site menu
+├── _svg.Rmd                 # child Rmarkdown for habitats
+├── coral-reef.Rmd           # habitat Rmarkdown
+├── kelp-forest.Rmd          # habitat Rmarkdown
+├── pelagic.Rmd              # habitat Rmarkdown
+├── cr-metrics.Rproj         # R project file (optional)
+├── data/                    # data folder
+│   ├── csv_indicators.csv   # - table of timeseries csv
+│   └── svg_elements.csv     # - table of svg elements
+├── docs/                    # website folder, gets regenerated
+├── functions.R              # core functions to creat website
+├── img/                     # images for README
+├── index.Rmd                # home page of website
+├── libs/                    # libraries folder
+│   ├── d3-dsv.v1.min.js     # - JavaScript to read csv
+│   ├── d3.v3.min.js         # - JavaScript to manipulate svg
+│   └── styles.css           # - minor styling with CSS
+├── svg/                     # svg folder
+│   ├── coral-reef.svg       # - habitat svg
+│   ├── kelp-forest.svg      # - habitat svg
+│   └── pelagic.svg          # - habitat svg
+└── svg_prep/                # svg prep files (deletable)
+```
+
+## Process
 
 Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (data/\*.csv) format:
 
