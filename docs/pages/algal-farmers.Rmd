@@ -26,7 +26,6 @@ plot_timeseries(
   col_y   = "q_mean")
 ```
 
-
 ```{r}
 plot_timeseries(
   csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
@@ -37,4 +36,52 @@ plot_timeseries(
 	col_t   = "year",
   col_y   = "n_species")
 ```
+
+## Map of Average Count
+
+Displaying maximum value across all years.
+
+```{r}
+library(tidyverse)
+library(geojsonio)
+library(RColorBrewer)
+library(leaflet)
+#library(htmlTable)
+
+url_geojson = 'https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/hex_grp_yr_q.geojson'
+filter_grp = 'algal.farmer'
+legend_title = 'avg count, max yr'
+h = geojson_read(url_geojson, method='local', what='sp')
+
+d_hy = h@data %>%
+  gather(grp_yr, q, -hex_id) %>%
+  separate(grp_yr, c('grp','yr'), sep='_') %>%
+  mutate(
+    yr = as.integer(yr)) %>%
+  filter(grp == filter_grp)
+
+d_h = d_hy %>%
+  group_by(hex_id, yr) %>%
+  summarize(
+    q_max_yr = max(q))
+
+h@data = h@data %>%
+    select(hex_id) %>%
+    left_join(d_h, by='hex_id')
+
+# Use htmlTables
+#df %>% leaflet() %>% addTiles() %>%
+#  addMarkers(~Long, ~Lat, popup = lapply(seq_along(df), function(row) htmlTable(df[row, ])))
+
+v = h@data$q
+pal = colorNumeric(rev(brewer.pal(11, 'Spectral')), v)
+
+leaflet(h) %>%
+  addProviderTiles('Esri.OceanBasemap') %>%
+  addPolygons(
+    stroke = FALSE, fillOpacity = 0.5, smoothFactor = 0.5,
+    color = pal(v)) %>%
+  addLegend('topleft', pal = pal, values = v, title = legend_title)
+```
+
 

@@ -1,0 +1,118 @@
+---
+output:
+  html_document:
+    self_contained: false
+    lib_dir: "libs"
+    fig_height: 2
+    fig_width: 4
+params:
+  element: "algal-farmers"
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo=F, message=F)
+source("../../functions.R")
+```
+
+
+```{r}
+plot_timeseries(
+  csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
+  title   = "Average count",
+  y_label = "Average count",
+  skip    = 0,
+  filter  = "group == \"Algal farmer\"",
+	col_t   = "year",
+  col_y   = "q_mean")
+```
+
+
+```{r}
+library(tidyverse)
+library(geojsonio)
+library(RColorBrewer)
+library(leaflet)
+
+url_geojson = 'https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/hex_grp_yr_q.geojson'
+h_gcs = geojson_read(url_geojson, method='local', what='sp')
+
+get_hex = function(x, y, h){
+  h@data = h@data %>%
+    select(hex_id) %>%
+    left_join(x, by='hex_id') %>%
+    mutate(
+      yr = y)
+  h
+}
+
+tbl = h_gcs@data %>%
+  gather(grp_yr, q, -hex_id) %>%
+  separate(grp_yr, c('grp','yr'), sep='_') %>%
+  mutate(
+    yr = as.integer(yr)) %>%
+  filter(grp == 'algal.farmer') %>%
+  group_by(yr) %>%
+  nest() %>%
+  mutate(
+    hex = map2(data, yr, get_hex, h_gcs))
+
+hex = do.call( sp::rbind.SpatialPolygonsDataFrame, tbl$hex)
+
+#filter_slider("mag", "Magnitude", sd, column=~mag, step=0.1, width=250)
+
+var = 'q'
+v = sd$data()[[var]]
+pal = colorNumeric(rev(brewer.pal(11, 'Spectral')), v)
+
+leaflet(sd) %>%
+  addProviderTiles('Esri.OceanBasemap') %>%
+  addPolygons(
+    stroke = FALSE, fillOpacity = 0.5, smoothFactor = 0.5,
+    color = pal(v)) %>%
+  addLegend('topleft', pal = pal, values = v, title = var)
+
+library(crosstalk)
+sd = SharedData$new(hex) # View(sd$data())
+
+bscols(widths = c(3,NA,NA),
+  list(
+    filter_checkbox("cyl", "Cylinders", shared_mtcars, ~cyl, inline = TRUE),
+    filter_slider("hp", "Horsepower", shared_mtcars, ~hp, width = "100%"),
+    filter_select("auto", "Automatic", shared_mtcars, ~ifelse(am == 0, "Yes", "No"))
+  ),
+  d3scatter(shared_mtcars, ~wt, ~mpg, ~factor(cyl), width="100%", height=250),
+  d3scatter(shared_mtcars, ~hp, ~qsec, ~factor(cyl), width="100%", height=250)
+)
+
+
+df <- sd$data(withKey = TRUE)
+    col <- lazyeval::f_eval(column, df)
+    values <- na.omit(col)
+    min <- min(values)
+    max <- max(values)
+    value <- range(values)
+    ord <- order(col)
+
+bscols(
+  list(
+    filter_slider("year", "Year", sd, column=~yr, width='90%', animate=T, sep='')),
+  leaflet(sd) %>%
+    addProviderTiles('Esri.OceanBasemap') %>%
+    addPolygons(
+      stroke = FALSE, fillOpacity = 0.5, smoothFactor = 0.5,
+      color = pal(v)) %>%
+    addLegend('topleft', pal = pal, values = v, title = var))
+```
+
+
+```{r}
+plot_timeseries(
+  csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
+  title   = "Species Richness",
+  y_label = "Species Richness",
+  skip    = 0,
+  filter  = "group == \"Algal farmer\"",
+	col_t   = "year",
+  col_y   = "n_species")
+```
+
