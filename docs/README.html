@@ -19,8 +19,11 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="./libs/d3-v3/d3.v3.min.js"></script>
-<script src="./libs/d3-dsv-v1/d3-dsv.v1.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+<script src="./libs/d3.v3.min.js"></script>
+<script src="./libs/d3-dsv.v1.min.js"></script>
 
 <style> 
 /* set the CSS: [Simple d3.js tooltips - bl.ocks.org](http://bl.ocks.org/d3noob/a22c42db65eb00d4e369)*/
@@ -39,10 +42,6 @@
   </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/highlight/textmate.css"
-      type="text/css" />
-<script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -85,6 +84,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="libs/styles.css" type="text/css" />
 
 </head>
 
@@ -169,7 +169,6 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -204,6 +203,9 @@ $(document).ready(function () {
 <li>
   <a href="kelp-forest.html">Kelp Forest</a>
 </li>
+<li>
+  <a href="coral-reef.html">Coral Reef</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -231,12 +233,13 @@ $(document).ready(function () {
 <div id="process" class="section level2">
 <h2>Process</h2>
 <p>Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running the following R code will generate the website for pulling up timeseries plots by clicking on the elements:</p>
-<pre class="r"><code>source(&#39;functions.R&#39;)
+<pre class="r"><code># create pages
+source(&#39;functions.R&#39;) # clear_site()
 create_site()</code></pre>
-<p>Besides the habitat illustration as a scalable vector graphics file (eg <a href="https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg">pelagics.svg</a>), the <code>create_site()</code> function relies on two tables in comma-seperated value (*.csv) format:</p>
+<p>Besides the habitat illustration as a scalable vector graphics file (eg <a href="https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg">pelagics.svg</a>), the <code>create_site()</code> function relies on two tables in comma-seperated value (data/*.csv) format:</p>
 <ul>
-<li><a href="https://github.com/marinebon/cr-metrics/blob/master/svg/elements.csv"><strong>elements.csv</strong></a>: identifies the elements in the svg habitat scene(s)</li>
-<li><a href="https://github.com/marinebon/cr-metrics/blob/master/svg/indicators.csv"><strong>indicators.csv</strong></a>: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element</li>
+<li><a href="https://github.com/marinebon/cr-metrics/blob/master/data/svg_elements.csv"><strong>svg_elements.csv</strong></a>: identifies the elements in the svg habitat scene(s)</li>
+<li><a href="https://github.com/marinebon/cr-metrics/blob/master/data/csv_indicators.csv"><strong>csv_indicators.csv</strong></a>: provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element</li>
 </ul>
 <p>The website content is output to the <code>docs/</code> folder, providing an interactive user experience with only basic web files (*.html, *.js, *.css) that any web server can host.</p>
 <p>You can see the files for this site hosted on Github here:</p>
@@ -326,7 +329,7 @@ create_site()</code></pre>
 <li><strong>link</strong>: the hyperlink to the page of corresponding data (usually timeseries)</li>
 <li><strong>link_title</strong>: the title that shows at the top of the modal popup window containing the page when the element is clicked</li>
 </ul></li>
-<li><p>Add / edit the <code>indicators.csv</code> with the following key fields, originally drawn from the site <a href="https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html">IEA - California Current</a>:</p>
+<li><p>Add / edit the <code>data/csv_indicators.csv</code> with the following key fields, originally drawn from the site <a href="https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html">IEA - California Current</a>:</p>
 <ul>
 <li><strong>indicator</strong>: name of indicator, which will become the timeseries plot’s title</li>
 <li><strong>y_label</strong>: label on the y-axis describing the value measured over time</li>
@@ -349,6 +352,7 @@ create_site()</code></pre>
 <div id="todo" class="section level2">
 <h2>TODO</h2>
 <ul>
+<li><p>Seperate into R package infographiq, and instances for FKNMS, MBNMS, etc.</p></li>
 <li><p>Populate California example, using available ERDDAP-connected timeseries from <a href="https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html">IEA - California Current</a></p></li>
 <li><p>Populate Florida Keys NMS, working in particular with people at FKNMS (Mike Buchman, Steve Gittings) and FL MBON (Megan Hepner)</p></li>
 </ul>
@@ -364,8 +368,11 @@ create_site()</code></pre>
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 

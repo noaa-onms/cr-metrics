@@ -8,14 +8,14 @@ Given a vector illustration of habitat scenes with different elements (eg pelagi
 
 ```R
 # create pages
-source('functions.R')
+source('functions.R') # clear_site()
 create_site()
 ```
 
-Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
+Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (data/\*.csv) format:
 
-- [**elements.csv**](https://github.com/marinebon/cr-metrics/blob/master/svg/elements.csv): identifies the elements in the svg habitat scene(s)
-- [**indicators.csv**](https://github.com/marinebon/cr-metrics/blob/master/svg/indicators.csv): provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element
+- [**svg_elements.csv**](https://github.com/marinebon/cr-metrics/blob/master/data/svg_elements.csv): identifies the elements in the svg habitat scene(s)
+- [**csv_indicators.csv**](https://github.com/marinebon/cr-metrics/blob/master/data/csv_indicators.csv): provides the ERDDAP URL to the timeseries data and other parameters to describe the timeseries plots and match to the svg element
 
 The website content is output to the `docs/` folder, providing an interactive user experience with only basic web files (\*.html, \*.js, \*.css) that any web server can host.
 
@@ -55,7 +55,7 @@ Here are detailed steps to prep the necessary files (svg scenes, csv tables of e
     - **link**: the hyperlink to the page of corresponding data (usually timeseries)
     - **link_title**: the title that shows at the top of the modal popup window containing the page when the element is clicked
 
-3. Add / edit the `indicators.csv` with the following key fields, originally drawn from the site [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html):
+3. Add / edit the `data/csv_indicators.csv` with the following key fields, originally drawn from the site [IEA - California Current](https://www.integratedecosystemassessment.noaa.gov//regions/california-current-region/index.html):
 
     - **indicator**: name of indicator, which will become the timeseries plot's title
     - **y_label**: label on the y-axis describing the value measured over time

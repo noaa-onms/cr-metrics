@@ -23,8 +23,8 @@
 <link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
-<script src="./libs/d3-v3/d3.v3.min.js"></script>
-<script src="./libs/d3-dsv-v1/d3-dsv.v1.min.js"></script>
+<script src="./libs/d3.v3.min.js"></script>
+<script src="./libs/d3-dsv.v1.min.js"></script>
 
 <style> 
 /* set the CSS: [Simple d3.js tooltips - bl.ocks.org](http://bl.ocks.org/d3noob/a22c42db65eb00d4e369)*/
@@ -85,6 +85,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="libs/styles.css" type="text/css" />
 
 </head>
 
@@ -203,6 +204,9 @@ $(document).ready(function () {
 <li>
   <a href="kelp-forest.html">Kelp Forest</a>
 </li>
+<li>
+  <a href="coral-reef.html">Coral Reef</a>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -243,7 +247,7 @@ $(document).ready(function () {
       document.getElementById('habitat').appendChild(xml.documentElement);
 
       // read csv
-      d3.csv("./svg/elements.csv", function(error, data) {
+      d3.csv("./data/svg_elements.csv", function(error, data) {
         if (error) throw error;
         // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
 

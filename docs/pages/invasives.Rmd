@@ -11,14 +11,14 @@ params:
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=F, message=F)
-source("../functions.R")
+source("../../functions.R")
 ```
 
 
 ```{r}
 plot_timeseries(
   csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
-  title   = "Invasive fish",
+  title   = "Average count",
   y_label = "Average count",
   skip    = 0,
   filter  = "group == 'invasive'",
@@ -30,7 +30,7 @@ plot_timeseries(
 ```{r}
 plot_timeseries(
   csv_tv  = "https://raw.githubusercontent.com/marinebon/analysis/gh-pages/data/rvc_grp_years.csv",
-  title   = "Invasive fish",
+  title   = "Species Richness",
   y_label = "Species Richness",
   skip    = 0,
   filter  = "group == 'invasive'",

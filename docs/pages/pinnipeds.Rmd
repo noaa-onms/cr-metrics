@@ -11,7 +11,7 @@ params:
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=F, message=F)
-source("../functions.R")
+source("../../functions.R")
 ```
 
 

@@ -12,6 +12,4 @@ This is a demonstration site for Condition Report metrics (cr-metrics) to inform
 
 ## Florida Keys Habitats
 
-- []
-
-https://pdx.axiomalaska.com/geoserver/secoora/wfs?service=WFS&version=1.0.0&request=GetFeature&outputFormat=SHAPE-ZIP&typeName=secoora:florida_keys_benthic_habitat
+- [**Coral Reef**](./coral-reef.html)

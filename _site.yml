@@ -22,5 +22,6 @@ output:
     include:
       in_header: _header.html
       after_body: _footer.html
+    css: libs/styles.css
     
       

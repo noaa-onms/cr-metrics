@@ -1,18 +1,27 @@
 # eventually functions will go into dedicated package at http://github.com/bbest/infogrpahiq
+library(tidyverse)
+library(stringr)
+library(rmarkdown)
+
+clear_site = function(){
+  # clean up output docs folder, except docs/svg/
+  #setdiff(list.files('docs'), c('libs','svg')) %>% file.path('docs', .) %>%
+  #  unlink(recursive=T, force=T)
+  unlink('docs', recursive=T, force=T)
+}
 
 create_site = function(){
-  # create_site()
   
-  library(tidyverse)
-  library(stringr)
-  library(rmarkdown)
+  clear_site()
   
   # render top level pages
   rmarkdown::render_site()
   
   # filter indicators to element from parameter
-  d = read_csv('docs/svg/indicators.csv') %>%
-    filter(!is.na(csv_url) | !is.na(csv_local)) # View(d)
+  d = read_csv('data/csv_indicators.csv') %>%
+    filter(!is.na(csv_url)) # View(d)
+  
+  dir.create('docs/pages', showWarnings = F)
   
   for (x in unique(d$element)){ # x = unique(d$element)[2]
     rmd = sprintf('docs/pages/%s.Rmd', x) 
@@ -30,7 +39,7 @@ params:
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 knitr::opts_chunk$set(echo=F, message=F)
-source("../functions.R")
+source("../../functions.R")
 ```
 ', x), rmd)
     
@@ -51,7 +60,7 @@ plot_timeseries(
   col_y   = %s)
 ```
 ', 
-ifelse(is.na(csv_url[i]), csv_local[i], csv_url[i]), 
+csv_url[i], 
 indicator[i], 
 y_label[i],
 ifelse(is.na(skip_lines[i]), 2, skip_lines[i]), 
@@ -61,6 +70,11 @@ ifelse(is.na(col_y[i]), 'NULL', sprintf('"%s"', col_y[i])))), rmd, append=T)
       
     }
     rmarkdown::render(rmd)
+  }
+  
+  # copy needed dirs to output docs
+  for (dir in c('data','img','libs','svg')){
+    file.copy(dir, 'docs', recursive=T)
   }
   
   # serve site
