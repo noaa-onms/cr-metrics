@@ -11,7 +11,7 @@
 
 
 
-<title>Welcome</title>
+<title>Coral Reef</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -19,6 +19,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
 <link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 <script src="./libs/d3-v3/d3.v3.min.js"></script>
 <script src="./libs/d3-dsv-v1/d3-dsv.v1.min.js"></script>
@@ -40,10 +43,6 @@
   </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<link rel="stylesheet"
-      href="site_libs/highlight/textmate.css"
-      type="text/css" />
-<script src="site_libs/highlight/highlight.js"></script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
@@ -170,7 +169,6 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
-<script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
@@ -205,9 +203,6 @@ $(document).ready(function () {
 <li>
   <a href="kelp-forest.html">Kelp Forest</a>
 </li>
-<li>
-  <a href="coral-reef.html">Coral Reef</a>
-</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
@@ -225,20 +220,123 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Welcome</h1>
+<h1 class="title toc-ignore">Coral Reef</h1>
 
 </div>
 
 
-<p>This is a demonstration site for Condition Report metrics (cr-metrics) to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).</p>
-<div id="habitats" class="section level2">
-<h2>Habitats</h2>
-<ul>
-<li><p><a href="./pelagic.html"><strong>Pelagic</strong></a></p></li>
-<li><p><a href="./kelp-forest.html"><strong>Kelp Forest</strong></a></p></li>
-<li><p><a href="./coral-reef.html"><strong>Coral Reef</strong></a></p></li>
-</ul>
+<div id="habitat">
+
 </div>
+<script>
+  // define div for tooltip
+  var div = d3.select("body").append("div")
+    .attr("class", "tooltip")
+    .style("opacity", 0);
+
+  d3.xml("./svg/coral-reef.svg")
+    .mimeType("image/svg+xml")
+    .get(function(error, xml) {
+      if (error) throw error;
+      //document.body.appendChild(xml.documentElement);
+      //d3.select("#habitat").append(xml.documentElement)
+      document.getElementById('habitat').appendChild(xml.documentElement);
+
+      // read csv
+      d3.csv("./svg/elements.csv", function(error, data) {
+        if (error) throw error;
+        // console.log(data.columns); // ["Year", "Make", "Model", "Length"]
+
+        // filter by habitat
+        data = data.filter(function(row) {
+          return row['habitat'] == 'coral-reef';
+        })
+
+        // iterate over rows of svg paths
+        data.forEach(function(d) {
+          console.log(d); // ["Year", "Make", "Model", "Length"]
+
+          // color
+          d3.selectAll(d.status_path)
+            .style("fill", d.status_color);
+
+          // link
+          d3.selectAll(d.link_path)
+            .attr("xlink:href", d.link)
+            .attr("xlink:data-title", d.link_title)
+            .attr("xlink:data-remote", "false")
+            .attr("xlink:data-toggle", "modal")
+            .attr("xlink:data-target", "#myModal")
+            .on("mouseover", function(x) {
+              div.transition()
+                .duration(200)
+                .style("opacity", .9);
+              div.html(d.link_title + "<br/>"  + d.status_text)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+              })
+            .on("mouseout", function(d) {
+              div.transition()
+              .duration(500)
+              div.style("opacity", 0);
+            });
+        }); // end: data.forEach()
+      }); // end: d3.csv()
+
+  });
+</script>
+<!-- Modal -->
+<div id="myModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">×</span>
+</button>
+<h4 class="modal-title" id="myModalLabel">
+Modal title
+</h4>
+</div>
+<div class="modal-body">
+…modal body…
+</div>
+</div>
+</div>
+</div>
+<script>
+$('#myModal').on('show.bs.modal', function (e) {
+  var link = $(e.relatedTarget);
+  $(this).find(".modal-title").text(link.data("title"));
+  $(this).find(".modal-body").html('<iframe frameborder="0" width="100%" height="850" src="URL">'.replace('URL',link.attr("href")))
+})
+</script>
+<pre class="r"><code>library(tidyverse)
+library(rphylopic)
+
+
+d = read_csv(&#39;/Users/bbest/github/analysis/data/rvc_spp_group-summary.csv&#39;) %&gt;%
+  group_by(group, scientific_name) %&gt;%
+  nest()
+
+
+d = d %&gt;%
+  mutate(
+    name_search = map(scientific_name, name_search))
+
+name_search(text=&#39;Lachnolaimus maximus&#39;)
+read_csv(&#39;~/github/analysis/data/rvc_grp_years.csv&#39;) %&gt;%
+  summarize()
+  mutate(
+  ns = name_search(text = &quot;damselfish&quot;)  
+  )
+
+
+/Users/bbest/github/analysis/data/rvc_grp_years.csv
+tibble(
+  )
+
+
+rvc_spp_group-summary.csv</code></pre>
 
 <p>Copyright &copy; 2016 Marine Biodiversity Observation Network & NOAA National Marine Sanctuaries.</p>
 
@@ -249,8 +347,11 @@ $(document).ready(function () {
 <script>
 
 // add bootstrap table styles to pandoc tables
-$(document).ready(function () {
+function bootstrapStylePandocTables() {
   $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
 });
 
 

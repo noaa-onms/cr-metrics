@@ -4,8 +4,14 @@ title: "Welcome"
 
 This is a demonstration site for Condition Report metrics (cr-metrics) to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
 
-## Habitats
+## Monterey Bay Habitats
 
 - [**Pelagic**](./pelagic.html)
 
 - [**Kelp Forest**](./kelp-forest.html)
+
+## Florida Keys Habitats
+
+- []
+
+https://pdx.axiomalaska.com/geoserver/secoora/wfs?service=WFS&version=1.0.0&request=GetFeature&outputFormat=SHAPE-ZIP&typeName=secoora:florida_keys_benthic_habitat

@@ -1,0 +1,9 @@
+---
+title: "Coral Reef"
+params:
+   svg:    "./svg/coral-reef.svg"
+   filter: "coral-reef"
+---
+
+```{r, child="_svg.Rmd"}
+```

@@ -7,8 +7,12 @@ Condition Report metrics to inform on National Marine Sanctuaries status using i
 Given a vector illustration of habitat scenes with different elements (eg pelagic: whales, fish, etc), running the following R code will generate the website for pulling up timeseries plots by clicking on the elements:
 
 ```R
+# create pages
 source('functions.R')
 create_site()
+
+# serve locally 
+servr::httd('docs')
 ```
 
 Besides the habitat illustration as a scalable vector graphics file (eg [pelagics.svg](https://github.com/marinebon/cr-metrics/blob/master/svg/pelagic.svg)), the `create_site()` function relies on two tables in comma-seperated value (\*.csv) format:
