@@ -2,14 +2,20 @@
 title: "Welcome"
 ---
 
-This is a demonstration site for Condition Report metrics (cr-metrics) to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
+This is a **demonstration** site for Condition Report metrics (cr-metrics) to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jennifer Brown (2016).
 
 ## Monterey Bay Habitats
 
 - [**Pelagic**](./pelagic.html)
+  
+    only pinniped interactive
 
 - [**Kelp Forest**](./kelp-forest.html)
+
+    static
 
 ## Florida Keys Habitats
 
 - [**Coral Reef**](./coral-reef.html)
+
+    **interactive** with time series from [Florida Keys Reef Fish Visual Census](http://mbon.ioos.us/#module-metadata/53cb8d58-ae4d-43e1-aea3-640db9491db2/9436fa4e-73aa-4189-b551-b3b484a9d4e9)
