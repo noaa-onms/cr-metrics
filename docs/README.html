@@ -237,6 +237,15 @@ $(document).ready(function () {
 source(&#39;functions.R&#39;) # clear_site()
 create_site()</code></pre>
 </div>
+<div id="technology-overview" class="section level2">
+<h2>Technology Overview</h2>
+<p>The core functionality of this interactive infographic is to link graphical elements to interactive plots of time series or maps:</p>
+<ul>
+<li><p><strong>Ecosystem elements</strong> should be in the form of scalable vector graphics (*.svg), the most popular vector format (vs raster images) for illustration and animation on the web.</p></li>
+<li><p><strong>Interactive plots</strong> are easily generated with the cross-platform statistical programming language <a href="https://cran.r-project.org/">R</a> and the many packages utilizing the htmlwidgets framework for porting JavaScript data visualization libraries to R functions that feed in the data. Check out the <a href="http://www.htmlwidgets.org/showcase_leaflet.html">htmlwidgets showcase</a> for compelling examples. The data pages with these htmlwidgets embedded are generated using the powerful <a href="http://rmarkdown.rstudio.com/">Rmarkdown</a>. I strongly encourage you to watch the 1 minute video <a href="https://vimeo.com/178485416">What is R Markdown? on Vimeo</a>. You can see the code that generates these pages from the <a href="https://github.com/marinebon/cr-metrics/blob/master/data/csv_indicators.csv">data/csv_indicators.csv</a> at <a href="https://github.com/marinebon/cr-metrics/blob/master/functions.R">functions.R</a>.</p></li>
+</ul>
+<p>To link the svg elements with the indicator plots, the powerful <a href="https://d3js.org/">d3</a> JavaScript library is used to read in the <a href="https://github.com/marinebon/cr-metrics/blob/master/data/svg_elements.csv">data/svg_elements.csv</a> and apply links to the elements. See code in <a href="https://raw.githubusercontent.com/marinebon/cr-metrics/master/_svg.Rmd">_svg.Rmd</a>.</p>
+</div>
 <div id="files" class="section level2">
 <h2>Files</h2>
 <p>Here’s an overview of all the files as a tree in alphabetic order, except for habitat Rmarkdown files to show similarity.</p>
