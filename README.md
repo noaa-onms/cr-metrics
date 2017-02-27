@@ -12,6 +12,16 @@ source('functions.R') # clear_site()
 create_site()
 ```
 
+## Technology Overview
+
+The core functionality of this interactive infographic is to link graphical elements to interactive plots of time series or maps:
+
+- **Ecosystem elements** should be in the form of scalable vector graphics (*.svg), the most popular vector format (vs raster images) for illustration and animation on the web.
+
+- **Interactive plots** are easily generated with the cross-platform statistical programming language [R](https://cran.r-project.org/) and the many packages utilizing the htmlwidgets framework for porting JavaScript data visualization libraries to R functions that feed in the data. Check out the [htmlwidgets showcase](http://www.htmlwidgets.org/showcase_leaflet.html) for compelling examples. The data pages with these htmlwidgets embedded are generated using the powerful [Rmarkdown](http://rmarkdown.rstudio.com/). I strongly encourage you to watch the 1 minute video [What is R Markdown? on Vimeo](https://vimeo.com/178485416). You can see the code that generates these pages from the [data/csv_indicators.csv](https://github.com/marinebon/cr-metrics/blob/master/data/csv_indicators.csv) at [functions.R](https://github.com/marinebon/cr-metrics/blob/master/functions.R).
+
+To link the svg elements with the indicator plots, the powerful [d3](https://d3js.org/) JavaScript library is used to read in the [data/svg_elements.csv](https://github.com/marinebon/cr-metrics/blob/master/data/svg_elements.csv) and apply links to the elements. See code in [_svg.Rmd](https://raw.githubusercontent.com/marinebon/cr-metrics/master/_svg.Rmd).
+
 ## Files
 
 Here's an overview of all the files as a tree in alphabetic order, except for habitat Rmarkdown files to show similarity.
