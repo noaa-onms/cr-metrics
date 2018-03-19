@@ -1,5 +1,7 @@
 # cr-metrics
 
+### !!! NOTE: the information here is out of date. Newer documentation on this topic can be found at [marinebon/infographiq](https://github.com/marinebon/infographiq) and [marinebon/info-demo](https://github.com/marinebon/info-demo).
+
 Condition Report metrics to inform on National Marine Sanctuaries status using interactive infographic approach to displaying habitat-based elements that link to time series data. Proposed by Jenn Brown (2016).
 
 ## Creation
